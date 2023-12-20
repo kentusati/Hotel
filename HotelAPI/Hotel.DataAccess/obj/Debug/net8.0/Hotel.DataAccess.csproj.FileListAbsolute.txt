@@ -1,0 +1,12 @@
+E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.csproj.AssemblyReference.cache
+E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.AssemblyInfoInputs.cache
+E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.AssemblyInfo.cs
+E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.csproj.CoreCompileInputs.cache
+E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\bin\Debug\net8.0\Hotel.DataAccess.deps.json
+E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\bin\Debug\net8.0\Hotel.DataAccess.dll
+E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\bin\Debug\net8.0\Hotel.DataAccess.pdb
+E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.dll
+E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\refint\Hotel.DataAccess.dll
+E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.pdb
+E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\ref\Hotel.DataAccess.dll

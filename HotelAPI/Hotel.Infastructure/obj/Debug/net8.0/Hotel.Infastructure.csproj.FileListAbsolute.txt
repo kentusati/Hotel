@@ -1,0 +1,17 @@
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\bin\Debug\net8.0\Hotel.Infastructure.deps.json
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\bin\Debug\net8.0\Hotel.Infastructure.runtimeconfig.json
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\bin\Debug\net8.0\Hotel.Infastructure.dll
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\bin\Debug\net8.0\Hotel.Infastructure.pdb
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\bin\Debug\net8.0\Hotel.DataAccess.dll
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\bin\Debug\net8.0\Hotel.DataAccess.pdb
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\Hotel.Infastructure.csproj.AssemblyReference.cache
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\Hotel.Infastructure.GeneratedMSBuildEditorConfig.editorconfig
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\Hotel.Infastructure.AssemblyInfoInputs.cache
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\Hotel.Infastructure.AssemblyInfo.cs
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\Hotel.Infastructure.csproj.CoreCompileInputs.cache
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\Hotel.Infastructure.csproj.CopyComplete
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\Hotel.Infastructure.dll
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\refint\Hotel.Infastructure.dll
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\Hotel.Infastructure.pdb
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\Hotel.Infastructure.genruntimeconfig.cache
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\ref\Hotel.Infastructure.dll
