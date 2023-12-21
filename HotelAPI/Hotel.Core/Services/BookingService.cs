@@ -19,26 +19,16 @@ namespace Hotel.Core.Services
             var newBooking = new Booking()
             {
                 Id = Guid.NewGuid(),
-                StartTime = DateTime.Now,
-                EndTime = DateTime.Now,
+                StartTime = DateTime.Now.ToString(),
+                EndTime = item.EndTime.ToString(),
+                RoomId = item.RoomId,
+                UserId = item.UserId,
+                Room = item.room,
+                User = item.user,
             };
             await _bookingRep.AddAsync(newBooking);
             await _bookingRep.SaveAsync();
             return newBooking;
-        }
-
-        public async Task<Booking> AddTestBooking()
-        {
-            var booking = new Booking()
-            {
-                Id = Guid.NewGuid(),
-                StartTime = DateTime.Now,
-                EndTime = DateTime.Now,
-            };
-
-            await _bookingRep.AddAsync(booking);
-            await _bookingRep.SaveAsync();
-            return booking;
         }
 
         public async Task<Booking> DeleteBooking(Guid id)
@@ -66,8 +56,8 @@ namespace Hotel.Core.Services
             var booking = await _bookingRep.GetByIdAsync(id);
             if (booking == null) return booking;
             _bookingRep.Update(booking);
-            booking.StartTime = item.StartTime;
-            booking.EndTime = item.EndTime;
+            booking.StartTime = item.StartTime.ToString();
+            booking.EndTime = item.EndTime.ToString();
             await _bookingRep.SaveAsync();
             return booking;
         }

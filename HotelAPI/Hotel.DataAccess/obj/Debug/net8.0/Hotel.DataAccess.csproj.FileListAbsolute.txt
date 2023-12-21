@@ -10,3 +10,4 @@ E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAcces
 E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\refint\Hotel.DataAccess.dll
 E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.pdb
 E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\ref\Hotel.DataAccess.dll
+E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.sourcelink.json

@@ -24,7 +24,7 @@ namespace Hotel.Core.Services
         {
             var role = await _roleRepository.GetByRoleName(roleName);
             user.Role = role;
-            //role.Users.Add(user);
+            user.roleId = role.Id;
         }
     }
 }

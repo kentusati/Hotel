@@ -4,8 +4,10 @@ namespace Hotel.DataAccess.Models
 {
     public class Booking : BaseEntity
     {
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public Guid UserId { get; set; }
+        public Guid RoomId { get; set; }
 
         public User User { get; set; }
         public Room Room { get; set; }

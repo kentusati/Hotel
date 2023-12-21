@@ -10,6 +10,9 @@ using Hotel.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using Hotel.DataAccess.Models;
+using Hotel.API.Extensions;
+using Microsoft.Extensions.Hosting;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +36,7 @@ builder.Services.AddScoped<IRoleService,RoleService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IServiceService, ServiceService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
+
 
 builder.Services.AddCors(options =>
 {
@@ -72,7 +76,6 @@ builder.Services.AddAuthentication(options =>
 //----------------------------------------------------------------------------------------
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -119,3 +119,4 @@ E:\Studing\MyProjects\HotelAPI\HotelAPI\bin\Debug\net8.0\zh-Hans\Microsoft.CodeA
 E:\Studing\MyProjects\HotelAPI\HotelAPI\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 E:\Studing\MyProjects\HotelAPI\HotelAPI\bin\Debug\net8.0\JWT.dll
 E:\Studing\MyProjects\HotelAPI\HotelAPI\bin\Debug\net8.0\Newtonsoft.Json.dll
+E:\Studing\MyProjects\HotelAPI\HotelAPI\obj\Debug\net8.0\Hotel.API.sourcelink.json

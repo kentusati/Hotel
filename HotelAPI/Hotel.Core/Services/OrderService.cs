@@ -20,11 +20,6 @@ namespace Hotel.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task<Order> AddTestOrder()
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<Order> DeleteOrder(Guid id)
         {
             throw new NotImplementedException();

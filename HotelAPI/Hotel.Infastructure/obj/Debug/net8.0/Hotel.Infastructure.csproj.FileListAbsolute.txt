@@ -15,3 +15,4 @@ E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\refint\Hotel
 E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\Hotel.Infastructure.pdb
 E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\Hotel.Infastructure.genruntimeconfig.cache
 E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\ref\Hotel.Infastructure.dll
+E:\Studing\MyProjects\HotelAPI\Hotel.Infastructure\obj\Debug\net8.0\Hotel.Infastructure.sourcelink.json

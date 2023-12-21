@@ -20,17 +20,12 @@ namespace Hotel.Core.Services
             var newBooking = new Booking()
             {
                 Id = Guid.NewGuid(),
-                StartTime = DateTime.Now,
-                EndTime = DateTime.Now,
+                StartTime = DateTime.Now.ToString(),
+                EndTime = DateTime.Now.ToString(),
             };
             //await _bookingRep.AddAsync(newBooking);
             //await _bookingRep.SaveAsync();
             return null;
-        }
-
-        public Task<Comment> AddTestComment()
-        {
-            throw new NotImplementedException();
         }
 
         public Task<Comment> DeleteComment(Guid id)

@@ -1,4 +1,5 @@
 ﻿using Hotel.DataAccess.Models.Base;
+using System.Text.Json.Serialization;
 
 namespace Hotel.DataAccess.Models
 {
@@ -11,8 +12,9 @@ namespace Hotel.DataAccess.Models
         public double Price_day { get; set; }
         public bool Available { get; set; }
         public string Description { get; set; }
-
-        public List<Booking> Bookings { get; set; }
-        public List<Order> Orders { get; set; }
+        [JsonIgnore]
+        public List<Booking>? Bookings { get; set; }
+        [JsonIgnore]
+        public List<Order>? Orders { get; set; }
     }
 }

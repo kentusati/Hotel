@@ -11,7 +11,5 @@ namespace Hotel.Core.Interfaces
         Task<Service> AddService(AddServiceRequest item); // создание объекта
         Task<Service> UpdateService(Guid id, AddServiceRequest item); // обновление объекта
         Task<Service> DeleteService(Guid id); // удаление объекта по id
-
-        Task<Service> AddTestService();
     }
 }

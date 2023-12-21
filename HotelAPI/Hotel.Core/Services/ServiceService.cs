@@ -28,11 +28,6 @@ namespace Hotel.Core.Services
             return newService;
         }
 
-        public Task<Service> AddTestService()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<Service> DeleteService(Guid id)
         {
             var service = await _serviceRep.GetByIdAsync(id);

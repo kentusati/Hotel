@@ -112,9 +112,31 @@ namespace Hotel.Core.Services
             var users = await _userRep.GetAllItemsAsync();
             return users;
         }
+        public async Task<IEnumerable<User>> GetAllUsersWithInclude()
+        {
+            var users = await _userRep.GetAllItemsAsyncWithInclude(u=>u.Role);
+            return users;
+        }
         public async Task<User> GetUserById(Guid id)
         {
             return await _userRep.GetByIdAsync(id);
+        }
+        public async Task<User> InitAdmin()
+        {
+            var user = await FindUserByName("Admin");
+            _userRep.Update(user);
+            if (user != null)
+            {
+                if (user.Role == null) { _roleService.AddToRoleAsync(user, "Admin"); }
+            }
+            await _userRep.SaveAsync();
+
+            return user;
+        }
+        public async Task<User> FindUserByName(string username)
+        {
+            var userByName = await _userRep.FindAsync(u=>u.UserName == username);
+            return userByName.First();
         }
         public async Task<User> AddUser(AddUserRequest addRequest)
         {
@@ -170,9 +192,11 @@ namespace Hotel.Core.Services
         public async Task<User> BlockUser(Guid id)
         {
             var user = await _userRep.GetByIdAsync(id);
+            _userRep.Update(user);
             if(user.isBlocked==false)
             user.isBlocked = true;
-            user.isBlocked = false;
+            else user.isBlocked = false;
+            await _userRep.SaveAsync();
             return user;
         }
 
@@ -188,21 +212,6 @@ namespace Hotel.Core.Services
 
 
         //-------------------------------------------
-        public async Task<User> AddTestUser()
-        {
-            var user = new User()
-            {
-                Id = Guid.NewGuid(),
-                UserName = "Test",
-                Email = "Test@test.com",
-            };
-            _roleService.AddToRoleAsync(user, "User");
-            user.PasswordHash = new PasswordHasher<User>().HashPassword(user, "TEST@test1234");
-
-            await _userRep.AddAsync(user);
-            await _userRep.SaveAsync();
-            return user;
-        }
 
     }
 }

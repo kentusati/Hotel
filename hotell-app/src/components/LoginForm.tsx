@@ -18,7 +18,7 @@ const LoginForm: React.FC<VisibleProps> = (props) => {
       navigate('/adminPanel');
       useEffect(() => {
         getAllUsers(); // Получаем пользователей с сервера при монтировании компонента
-      }, [fetchUsers]);
+      },[fetchUsers]);
     }
     else navigate('/home');
   };

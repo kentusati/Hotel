@@ -11,6 +11,5 @@ namespace Hotel.Core.Interfaces
         Task<Comment> UpdateComment(Guid id, AddCommentRequest item); // обновление объекта
         Task<Comment> DeleteComment(Guid id); // удаление объекта по id
 
-        Task<Comment> AddTestComment();
     }
 }

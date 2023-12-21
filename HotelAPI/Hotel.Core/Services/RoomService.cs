@@ -23,6 +23,7 @@ namespace Hotel.Core.Services
                 Id = Guid.NewGuid(),
                 Name = item.Name,
                 Price_day = item.Price_day,
+                Type = item.Type,
                 Img = item.Img,
                 Available = item.Available,
                 Number = item.Number,
@@ -31,11 +32,6 @@ namespace Hotel.Core.Services
             await _roomRep.AddAsync(newRoom);
             await _roomRep.SaveAsync();
             return newRoom;
-        }
-
-        public Task<Room> AddTestRoom()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<Room> DeleteRoom(Guid id)

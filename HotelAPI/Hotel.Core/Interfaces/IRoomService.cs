@@ -12,6 +12,5 @@ namespace Hotel.Core.Interfaces
         Task<Room> UpdateRoom(Guid id, AddRoomRequest item); // обновление объекта
         Task<Room> DeleteRoom(Guid id); // удаление объекта по id
 
-        Task<Room> AddTestRoom();
     }
 }

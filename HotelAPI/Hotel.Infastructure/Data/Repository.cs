@@ -1,11 +1,12 @@
-﻿using Hotel.DataAccess.Models.Base;
+﻿using Hotel.DataAccess.Models;
+using Hotel.DataAccess.Models.Base;
 using Hotel.Infastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Hotel.Infastructure.Data
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class Repository<T> : IRepository<T> where T : BaseEntity 
     {
         private readonly HotelAPIDBcontext _context;
         private readonly DbSet<T> _dbSet;
@@ -19,6 +20,10 @@ namespace Hotel.Infastructure.Data
         public async Task<IEnumerable<T>> GetAllItemsAsync()
         {
              return await _dbSet.ToListAsync();
+        }
+        public async Task<IEnumerable<T>> GetAllItemsAsyncWithInclude(Expression<Func<T, BaseEntity>>? expression)
+        {
+            return await _dbSet.Include(expression).ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(Guid id)

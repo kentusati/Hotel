@@ -12,11 +12,6 @@ namespace Hotel.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task<SelectedServiceForOrder> AddTestSelectedServiceForOrder()
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<SelectedServiceForOrder> DeleteSelectedServiceForOrder(Guid id)
         {
             throw new NotImplementedException();

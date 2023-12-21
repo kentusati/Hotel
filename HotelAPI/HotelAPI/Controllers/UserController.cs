@@ -31,7 +31,7 @@ namespace Services.Controllers
         [HttpGet("GetAllUsers")]
         public async Task<IEnumerable<User>> GetAllUsers()
         {
-            return await _userService.GetAllUsers();
+            return await _userService.GetAllUsersWithInclude();
         }
 
         [HttpPost("Register")]
@@ -55,6 +55,12 @@ namespace Services.Controllers
         public async Task<IActionResult> AddManager(AddUserRequest manager)
         {
             var result = await _userService.AddManager(manager);
+            return Ok(result);
+        }
+        [HttpPost("AddAdmin")]
+        public async Task<IActionResult> AddAdmin()
+        {
+            var result = await _userService.InitAdmin();
             return Ok(result);
         }
 

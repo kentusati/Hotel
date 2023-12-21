@@ -9,12 +9,12 @@ interface UserState{
     error: Error | null;
     getAllUsers: () => void;
     blockUser: (id: string) => void;
-    //addUser: (dto : UserInterface) => void;
+    addUser: (user : UserInterface) => void;
 }
 
 export const useStorage = create<UserState>(set => ({
     
-    users : [] as UserInterface[],
+    users : [],
 
     loading: false,
     error: null,
@@ -23,7 +23,7 @@ export const useStorage = create<UserState>(set => ({
         set({loading: true})
     
         try{
-            const response = await axios.get<UserInterface[]>('http://localhost:5139/api/User/GetAllUsers');;
+            const response = await axios.get<UserInterface[]>('http://localhost:5139/api/User/GetAllUsers');
             if(response.status!==200) throw new Error('Fail');
             set({users: await response.data, error: null});
         }
@@ -36,6 +36,22 @@ export const useStorage = create<UserState>(set => ({
             user.id === userId ? { ...user, blocked: !user.isBlocked } : user
           ),
         }));
-      },
-
+    },
+    addUser: async (user: UserInterface) => {
+      try {
+        set((state) => ({ ...state, loading: true, error: null }));
+  
+        // Выполнение запроса к серверу для добавления пользователя
+        const response = await axios.post<UserInterface>('http://localhost:5139/api/User/Register', user);
+        
+        if (response.status!==200) {
+          throw new Error('Ошибка при добавлении пользователя');
+        }
+  
+        set((state) => ({ ...state, users: [...state.users, response.data], loading: false }));
+      } catch (error) {
+        set((state) => ({ ...state, error: new Error('Ошибка'), loading: false }));
+      }
+    },
+    
 }))

@@ -16,6 +16,5 @@ namespace Hotel.Core.Interfaces
 
         Task<SelectedServiceForOrder> DeleteSelectedServiceForOrder(Guid id); // удаление объекта по id
 
-        Task<SelectedServiceForOrder> AddTestSelectedServiceForOrder();
     }
 }

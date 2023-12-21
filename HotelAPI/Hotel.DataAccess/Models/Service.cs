@@ -1,4 +1,5 @@
 ﻿using Hotel.DataAccess.Models.Base;
+using System.Text.Json.Serialization;
 
 namespace Hotel.DataAccess.Models
 {
@@ -8,7 +9,8 @@ namespace Hotel.DataAccess.Models
         public string Img { get; set; }
         public double Price { get; set; }
         public string Description { get; set; }
-        
-        public List<SelectedServiceForOrder> SelectedServiceForOrder { get; set; }
+
+        [JsonIgnore]
+        public List<Order> Orders { get; set; }
     }
 }

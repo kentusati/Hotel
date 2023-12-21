@@ -15,3 +15,4 @@ E:\Studing\MyProjects\HotelAPI\Hotel.Core\obj\Debug\net8.0\Hotel.Core.dll
 E:\Studing\MyProjects\HotelAPI\Hotel.Core\obj\Debug\net8.0\refint\Hotel.Core.dll
 E:\Studing\MyProjects\HotelAPI\Hotel.Core\obj\Debug\net8.0\Hotel.Core.pdb
 E:\Studing\MyProjects\HotelAPI\Hotel.Core\obj\Debug\net8.0\ref\Hotel.Core.dll
+E:\Studing\MyProjects\HotelAPI\Hotel.Core\obj\Debug\net8.0\Hotel.Core.sourcelink.json
