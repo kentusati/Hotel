@@ -15,9 +15,20 @@ namespace Hotel.Core.Services
         {
             this._orderRep = new Repository<Order>(dbContext);
         }
-        public Task<Order> AddOrder(AddOrderRequest item)
+        public async Task<Order> AddOrder(AddOrderRequest item)
         {
-            throw new NotImplementedException();
+            var newOrder = new Order()
+            {
+                Id = Guid.NewGuid(),
+                DateOfOrder = item.DateOfOrder.ToString(),
+                Status = item.Status,
+                Description = item .Description,
+                RoomId = Guid.Parse(item.RoomId),
+                ServiceId = Guid.Parse(item.ServiceId)
+            };
+            await _orderRep.AddAsync(newOrder);
+            await _orderRep.SaveAsync();
+            return newOrder;
         }
 
         public Task<Order> DeleteOrder(Guid id)

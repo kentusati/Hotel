@@ -15,16 +15,16 @@ namespace Hotel.Core.Services
             this._commentRep = new Repository<Comment>(dbContext);
         }
 
-        public Task<Comment> AddComment(AddCommentRequest item)
+        public async Task<Comment> AddComment(AddCommentRequest item)
         {
-            var newBooking = new Booking()
+            var newComment = new Comment()
             {
                 Id = Guid.NewGuid(),
-                StartTime = DateTime.Now.ToString(),
-                EndTime = DateTime.Now.ToString(),
+                rating = item.rating,
+                text = item.text,
             };
-            //await _bookingRep.AddAsync(newBooking);
-            //await _bookingRep.SaveAsync();
+            await _commentRep.AddAsync(newComment);
+            await _commentRep.SaveAsync();
             return null;
         }
 

@@ -54,7 +54,6 @@ namespace Hotel.Core.Services
             if (service == null) return service;
             _serviceRep.Update(service);
             service.Name = item.Name;
-            service.Img = item.Img;
             service.Price = item.Price;
             service.Description = item.Description;
             await _serviceRep.SaveAsync();

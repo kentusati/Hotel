@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Typography, Button } from '@mui/material';
-import { useStorage } from './Storage/StorageUsers';
+import { userStorage } from './Storage/UserStorage';
 import { UserInterface } from './InterfacesAndProps/Interfaces';
 
 interface User {
@@ -10,7 +10,7 @@ interface User {
 }
 
 const ListUsers: React.FC = () => {
-  const { users, blockUser } = useState();
+  const { users, blockUser } = userStorage();
 
 
   const handleBlockUser = (userId: string) => {

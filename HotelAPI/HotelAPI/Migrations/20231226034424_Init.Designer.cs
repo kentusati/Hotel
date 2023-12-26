@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hotel.API.Migrations
 {
     [DbContext(typeof(HotelAPIDBcontext))]
-    [Migration("20231221140954_Init")]
+    [Migration("20231226034424_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -126,17 +126,17 @@ namespace Hotel.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("797f5345-2cea-4d96-ac66-9c838fbedc9c"),
+                            Id = new Guid("18fa538e-486f-4fb2-a3ac-d68169daf39a"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("664de2df-47a9-427c-b5d0-f8a66f4acd17"),
+                            Id = new Guid("0cf2c712-dfbe-4890-8f39-ae9143c90ad3"),
                             Name = "Manager"
                         },
                         new
                         {
-                            Id = new Guid("54bff1b1-8919-423b-83eb-fe6500e01701"),
+                            Id = new Guid("7ea2b78d-0121-4517-b122-2e0d0db4dbe6"),
                             Name = "User"
                         });
                 });
@@ -150,19 +150,26 @@ namespace Hotel.API.Migrations
                     b.Property<bool>("Available")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("RoomNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("RoomTypeId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomTypeId");
+
+                    b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("Hotel.DataAccess.Models.RoomType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Img")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -175,7 +182,7 @@ namespace Hotel.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("RoomTypes");
                 });
 
             modelBuilder.Entity("Hotel.DataAccess.Models.Service", b =>
@@ -185,10 +192,6 @@ namespace Hotel.API.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Img")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -236,9 +239,9 @@ namespace Hotel.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5ff351f8-1bc3-4e31-bfb1-869c3e0768c6"),
+                            Id = new Guid("d0611d84-73bb-4a2f-aecc-696e393b7d07"),
                             Email = "Admin@gmail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAELKOIttciefUHg1YXQHva46Tcgg83yyXCEvdZ/AfTx+lSqmFjHRHXNjCDrnufi4yOg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPdGzGAZk3EkFyEdhdsiAs/yOprrZ/97iB5xgkt9E6B3Luw5s2oYUfT6IGUoIi/sTg==",
                             UserName = "Admin",
                             isBlocked = false
                         });
@@ -247,7 +250,7 @@ namespace Hotel.API.Migrations
             modelBuilder.Entity("Hotel.DataAccess.Models.Booking", b =>
                 {
                     b.HasOne("Hotel.DataAccess.Models.Room", "Room")
-                        .WithMany("Bookings")
+                        .WithMany()
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -277,7 +280,7 @@ namespace Hotel.API.Migrations
             modelBuilder.Entity("Hotel.DataAccess.Models.Order", b =>
                 {
                     b.HasOne("Hotel.DataAccess.Models.Room", "Room")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -293,6 +296,17 @@ namespace Hotel.API.Migrations
                     b.Navigation("Service");
                 });
 
+            modelBuilder.Entity("Hotel.DataAccess.Models.Room", b =>
+                {
+                    b.HasOne("Hotel.DataAccess.Models.RoomType", "RoomType")
+                        .WithMany()
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RoomType");
+                });
+
             modelBuilder.Entity("Hotel.DataAccess.Models.User", b =>
                 {
                     b.HasOne("Hotel.DataAccess.Models.Role", "Role")
@@ -300,13 +314,6 @@ namespace Hotel.API.Migrations
                         .HasForeignKey("roleId");
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("Hotel.DataAccess.Models.Room", b =>
-                {
-                    b.Navigation("Bookings");
-
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Hotel.DataAccess.Models.Service", b =>

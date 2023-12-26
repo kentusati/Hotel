@@ -25,6 +25,11 @@ namespace Hotel.Infastructure.Data
         {
             return await _dbSet.Include(expression).ToListAsync();
         }
+        public async Task<IEnumerable<T>> GetAllItemsAsyncWithInclude(Expression<Func<T, BaseEntity>>? expression, Expression<Func<T, BaseEntity>>? otherExpression)
+        {
+            return await _dbSet.Include(expression).Include(otherExpression).ToListAsync();
+        }
+
 
         public async Task<T> GetByIdAsync(Guid id)
         {

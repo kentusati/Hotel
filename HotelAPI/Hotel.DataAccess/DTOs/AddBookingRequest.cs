@@ -1,4 +1,5 @@
 ﻿
+using Hotel.DataAccess.DTOs.UsersRequest;
 using Hotel.DataAccess.Models;
 
 namespace Hotel.DataAccess.DTOs
@@ -7,10 +8,8 @@ namespace Hotel.DataAccess.DTOs
     {
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public Guid UserId { get; set; }
-        public Guid RoomId { get; set; }
+        public string UserId { get; set; }
+        public string RoomId { get; set; }
 
-        public Room room { get; set; }
-        public User user { get; set; }
     }
 }

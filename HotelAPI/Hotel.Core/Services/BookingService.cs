@@ -2,6 +2,7 @@
 using Hotel.DataAccess.DTOs;
 using Hotel.DataAccess.Models;
 using Hotel.Infastructure.Data;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Hotel.Core.Services
 {
@@ -19,12 +20,10 @@ namespace Hotel.Core.Services
             var newBooking = new Booking()
             {
                 Id = Guid.NewGuid(),
-                StartTime = DateTime.Now.ToString(),
+                StartTime = item.StartTime.ToString(),
                 EndTime = item.EndTime.ToString(),
-                RoomId = item.RoomId,
-                UserId = item.UserId,
-                Room = item.room,
-                User = item.user,
+                RoomId = Guid.Parse(item.RoomId),
+                UserId = Guid.Parse(item.UserId)
             };
             await _bookingRep.AddAsync(newBooking);
             await _bookingRep.SaveAsync();
@@ -42,8 +41,23 @@ namespace Hotel.Core.Services
 
         public async Task<IEnumerable<Booking>> GetAllBookings()
         {
-            var bookings = await _bookingRep.GetAllItemsAsync();
+            //var bookings = await _bookingRep.GetAllItemsAsync();
+            var bookings = await _bookingRep.GetAllItemsAsyncWithInclude(b=> b.User, b=>b.Room);
             return bookings;
+        }
+        public async Task<IEnumerable<Booking>> GetUserBookings(Guid id)
+        {
+            var bookingsAll = await _bookingRep.GetAllItemsAsyncWithInclude(b => b.User, b => b.Room);
+            List<Booking> items = new List<Booking>();
+            foreach (var booking in bookingsAll)
+            {
+                if (booking.UserId == id) {
+                    items.Add(booking);
+                    Console.WriteLine(booking);
+                }
+            }
+            if(items.IsNullOrEmpty()) return null;
+            return items;
         }
 
         public async Task<Booking> GetBookingById(Guid id)

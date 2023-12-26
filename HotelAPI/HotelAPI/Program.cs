@@ -34,6 +34,7 @@ var signInKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService,RoleService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IServiceService, ServiceService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 

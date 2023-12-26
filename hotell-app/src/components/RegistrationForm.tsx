@@ -1,19 +1,34 @@
-import {Button, TextField, Typography} from '@mui/material';
+import {Button,Alert, TextField, Typography} from '@mui/material';
 import React, { useState } from 'react';
 import { VisibleProps } from './InterfacesAndProps/Props';
+import { userStorage } from './Storage/UserStorage';
 
 
 const RegistrationForm: React.FC<VisibleProps> = (props) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const {succes , isLoading, error,register} = userStorage();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     console.log('Login:', username, password, email);
+    await register(username,email,password);
   };
 
+  if(isLoading){
+    <div>Loading...</div>
+  }
+  if(error){
+    <div>{error.message}
+    </div>
+  }
+
   return (
+    <div>
+      {succes && (<Alert severity="success">This is a success alert — check it out!</Alert>)}
+
+
     <form onSubmit={handleSubmit}>
       <Typography variant="h3">Регистрация</Typography>
       <div>
@@ -38,6 +53,9 @@ const RegistrationForm: React.FC<VisibleProps> = (props) => {
       </div>
 
     </form>
+    </div>
+
+
   );
 };
 

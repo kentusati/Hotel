@@ -32,8 +32,8 @@ namespace Hotel.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("UpdateService")]
-        public async Task<IActionResult> UpdateService(string id, AddServiceRequest serviceRequest)
+        [HttpPut("UpdateService/{id}")]
+        public async Task<IActionResult> UpdateService([FromRoute] string id, AddServiceRequest serviceRequest)
         {
             var result = await _serviceService.UpdateService(Guid.Parse(id), serviceRequest);
             return Ok(result);

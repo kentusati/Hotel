@@ -1,37 +1,58 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserProps } from './InterfacesAndProps/Props';
 import {Link} from 'react-router-dom';
+import { userStorage } from './Storage/UserStorage';
 import { Button, Card, CardContent, Typography, CardActions } from '@mui/material';
 
-const UserComponent: React.FC<UserProps> = ({ user }) => {
+const UserComponent: React.FC<UserProps> = () => {
+
+  const navigate = useNavigate();
+  const {userBookings, isLoading, error, currentUser, deleteBooking, fetchUserBookings, setCurrentUser} = userStorage();
+
+  useEffect( () => {
+    console.log(currentUser?.id);
+    fetchUserBookings(currentUser?.id);
+  }, []);
+
   const handleLogout = () => {
-    window.location.href = '/';
+    setCurrentUser(null);
+    navigate("/");
   };
 
   const handleCancelBooking = (bookingId:string) => {
     // Ваша логика отмены бронирования
+    deleteBooking(bookingId);
+    fetchUserBookings(currentUser?.id);
     console.log(`Отмена бронирования номера с ID: ${bookingId}`);
   };
+
+  if(isLoading){
+    return( <div> Loading... </div> )
+  }
+  if(error){
+    return( <div> {error.message} </div> )
+  }
 
   return (
     <div>
       <Typography variant="h4" gutterBottom>
-        Добро пожаловать, {user.name}!
+        Добро пожаловать, {currentUser?.email}!
       </Typography>
 
       <Typography variant="h5" gutterBottom>
         Забронированные номера:
-      </Typography>
-      {user.roomBookings.length === 0 ? (
+      </Typography> 
+      {userBookings == null  ? (
         <Typography variant="body1" gutterBottom>
           У вас нет забронированных номеров.
         </Typography>
       ) : (
-        user.roomBookings.map((booking) => (
-          <Card key={booking.id} style={{ marginBottom: '10px' }}>
+        userBookings.map((booking, index) => (
+          <Card key={index} style={{ marginBottom: '10px' }}>
             <CardContent>
               <Typography variant="h6" component="h2">
-                Номер: {booking.roomNumber}
+                Номер: {booking.room.roomNumber}
               </Typography>
               <Typography color="textSecondary" gutterBottom>
                 Заезд: {booking.checkInDate?.toString()}
@@ -52,29 +73,6 @@ const UserComponent: React.FC<UserProps> = ({ user }) => {
           </Card>
         ))
       )}
-
-      <Typography variant="h5" gutterBottom>
-        Ваши заказы в номерах:
-      </Typography>
-      {user.orders.length === 0 ? (
-        <Typography variant="body1" gutterBottom>
-          У вас нет заказов в номерах.
-        </Typography>
-      ) : (
-        user.orders.map((order) => (
-          <Card key={order.id} style={{ marginBottom: '10px' }}>
-            <CardContent>
-              <Typography variant="h6" component="h2">
-                Номер: {order.roomNumber}
-              </Typography>
-              <Typography color="textSecondary" gutterBottom>
-                Услуга: {order.service}
-              </Typography>
-            </CardContent>
-          </Card>
-        ))
-      )}
-
       <Button variant="contained" color="primary" onClick={handleLogout}>
         Выйти
       </Button>

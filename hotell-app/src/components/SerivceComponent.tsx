@@ -20,6 +20,7 @@ import {styled} from'@mui/system';
   
 interface ServiceProps{
     service: ServiceInterface;
+    index: number;
     onClick: () => void;
 }
 
@@ -28,15 +29,16 @@ export const ServicesComponent: React.FC<ServiceProps> = (service) => {
     const selectedService = service.service;
     
     return(
-        <Container key={selectedService.id}>
+        <Container>
             <ImageContainer>
             <img src={selectedService.image} draggable={false} height={200} width={250}/>
             </ImageContainer>
             <TextContainer>
             <Typography variant="h4" textAlign={'left'}>{selectedService.name}</Typography>
+            <Typography variant="h5" textAlign={'left'}>{selectedService.price}</Typography>
             <Typography variant="h6" textAlign={'left'}>{selectedService.description}</Typography>
             </TextContainer>
-            <Button variant="contained" color="primary" onClick={service.onClick}>подробнее</Button>
+            <Button variant="contained" color="primary" onClick={service.onClick}>Заказ</Button>
         </Container>
     )
 }

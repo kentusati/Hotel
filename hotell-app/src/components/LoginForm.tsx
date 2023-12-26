@@ -1,35 +1,49 @@
 import {Button, TextField, Typography} from '@mui/material'
 import React, { useState, useEffect } from 'react';
-import { useStorage } from './Storage/StorageUsers';
+import { userStorage } from './Storage/UserStorage';
 import { useNavigate } from 'react-router-dom';
 import {VisibleProps} from './InterfacesAndProps/Props'
+import { UserInterface } from './InterfacesAndProps/Interfaces';
+import { Sync } from '@mui/icons-material';
 
 
 const LoginForm: React.FC<VisibleProps> = (props) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const fetchUsers = useStorage((state) => state.users);
+  const {users, currentUser,setCurrentUser ,error,isLoading ,fetchUsers, logIn} = userStorage();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login:', username, password);
-    if(username === "Admin"){ 
+    await logIn(email,password);
+    if(currentUser?.roleId === "18fa538e-486f-4fb2-a3ac-d68169daf39a"){ 
       navigate('/adminPanel');
-      useEffect(() => {
-        getAllUsers(); // Получаем пользователей с сервера при монтировании компонента
-      },[fetchUsers]);
+      setCurrentUser(currentUser);
     }
-    else navigate('/home');
+    if(currentUser?.roleId==="e6150860-337f-4d3b-81f3-270e23266a8c" && currentUser?.isBlocked==false){
+      navigate('/home');
+      setCurrentUser(currentUser);
+    }
+    if(currentUser?.roleId==="2cf25159-a39f-4873-9f77-308f8854ac6c"){
+      navigate('/managerPanel');
+      setCurrentUser(currentUser);
+    }
   };
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <form onSubmit={handleSubmit}>
         <Typography variant="h3">Добро пожаловать</Typography>
       <div>
-      <TextField id="username" required 
-       label="username" variant="standard" value={username} onChange={(e) => setUsername(e.target.value)}/>
+      <TextField id="username" required
+       label="email" variant="standard" value={email} onChange={(e) => setEmail(e.target.value)}/>
       </div>
       <div>
       <TextField required 

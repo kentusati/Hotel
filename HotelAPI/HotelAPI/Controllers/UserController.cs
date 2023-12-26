@@ -45,7 +45,7 @@ namespace Services.Controllers
         public async Task<IActionResult> SignIn(AuthenticationUserRequest User)
         {
             var result = await _userService.LoginAsync(User, _jwtSettings);
-            if (result.IsNullOrEmpty())
+            if (result==null)
             {
                 return Unauthorized();
             }

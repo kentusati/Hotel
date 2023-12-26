@@ -26,21 +26,17 @@ namespace Hotel.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rooms",
+                name: "RoomTypes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Number = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Img = table.Column<string>(type: "text", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
                     Price_day = table.Column<double>(type: "double precision", nullable: false),
-                    Available = table.Column<bool>(type: "boolean", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rooms", x => x.Id);
+                    table.PrimaryKey("PK_RoomTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,7 +45,6 @@ namespace Hotel.API.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Img = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<double>(type: "double precision", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false)
                 },
@@ -80,29 +75,41 @@ namespace Hotel.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "Rooms",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    DateOfOrder = table.Column<string>(type: "text", nullable: false),
-                    Status = table.Column<bool>(type: "boolean", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    RoomId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ServiceId = table.Column<Guid>(type: "uuid", nullable: false)
+                    RoomNumber = table.Column<int>(type: "integer", nullable: false),
+                    Available = table.Column<bool>(type: "boolean", nullable: false),
+                    RoomTypeId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.PrimaryKey("PK_Rooms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Rooms_RoomId",
-                        column: x => x.RoomId,
-                        principalTable: "Rooms",
+                        name: "FK_Rooms_RoomTypes_RoomTypeId",
+                        column: x => x.RoomTypeId,
+                        principalTable: "RoomTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    text = table.Column<string>(type: "text", nullable: false),
+                    rating = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Services_ServiceId",
-                        column: x => x.ServiceId,
-                        principalTable: "Services",
+                        name: "FK_Comments_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -135,21 +142,29 @@ namespace Hotel.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comments",
+                name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    text = table.Column<string>(type: "text", nullable: false),
-                    rating = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    DateOfOrder = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<bool>(type: "boolean", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    RoomId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ServiceId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_Orders_Rooms_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "Rooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -159,15 +174,15 @@ namespace Hotel.API.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("54bff1b1-8919-423b-83eb-fe6500e01701"), "User" },
-                    { new Guid("664de2df-47a9-427c-b5d0-f8a66f4acd17"), "Manager" },
-                    { new Guid("797f5345-2cea-4d96-ac66-9c838fbedc9c"), "Admin" }
+                    { new Guid("0cf2c712-dfbe-4890-8f39-ae9143c90ad3"), "Manager" },
+                    { new Guid("18fa538e-486f-4fb2-a3ac-d68169daf39a"), "Admin" },
+                    { new Guid("7ea2b78d-0121-4517-b122-2e0d0db4dbe6"), "User" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "PasswordHash", "UserName", "isBlocked", "roleId" },
-                values: new object[] { new Guid("5ff351f8-1bc3-4e31-bfb1-869c3e0768c6"), "Admin@gmail.com", "AQAAAAIAAYagAAAAELKOIttciefUHg1YXQHva46Tcgg83yyXCEvdZ/AfTx+lSqmFjHRHXNjCDrnufi4yOg==", "Admin", false, null });
+                values: new object[] { new Guid("d0611d84-73bb-4a2f-aecc-696e393b7d07"), "Admin@gmail.com", "AQAAAAIAAYagAAAAEPdGzGAZk3EkFyEdhdsiAs/yOprrZ/97iB5xgkt9E6B3Luw5s2oYUfT6IGUoIi/sTg==", "Admin", false, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_RoomId",
@@ -193,6 +208,11 @@ namespace Hotel.API.Migrations
                 name: "IX_Orders_ServiceId",
                 table: "Orders",
                 column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rooms_RoomTypeId",
+                table: "Rooms",
+                column: "RoomTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_roleId",
@@ -223,6 +243,9 @@ namespace Hotel.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "RoomTypes");
         }
     }
 }

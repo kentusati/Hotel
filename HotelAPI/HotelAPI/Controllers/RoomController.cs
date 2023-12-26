@@ -20,9 +20,22 @@ namespace Hotel.API.Controllers
         }
 
         [HttpGet("GetAllRooms")]
-        public async Task<IEnumerable<Room>> GetRooms()
+        public async Task<IActionResult> GetRooms()
         {
-            return await _roomService.GetAllRooms();
+            var result = await _roomService.GetAllRooms();
+            return Ok(result);
+        }
+        [HttpGet("GetAllRooms/{id}")]
+        public async Task<IActionResult> GetRoomsByTypeId([FromRoute]Guid id)
+        {
+            var result = await _roomService.GetAllRoomsByTypeId(id);
+            return Ok(result);
+        }
+        [HttpGet("GetAllRoomsType")]
+        public async Task<IActionResult> GetRoomsType()
+        {
+            var result = await _roomService.GetAllRoomsTypes();
+            return Ok(result);
         }
         [HttpPost("AddRoom")]
         public async Task<IActionResult> AddRoom(AddRoomRequest roomRequest)
@@ -30,8 +43,14 @@ namespace Hotel.API.Controllers
             var result = await _roomService.AddRoom(roomRequest);
             return Ok(result);
         }
-        [HttpPut("UpdateRoom")]
-        public async Task<IActionResult> UpdateRoom( string id, AddRoomRequest roomRequest)
+        [HttpPost("AddRoomType")]
+        public async Task<IActionResult> AddRoomType(AddRoomTypeRequest roomRequest)
+        {
+            var result = await _roomService.AddRoomType(roomRequest);
+            return Ok(result);
+        }
+        [HttpPut("UpdateRoom/{id}")]
+        public async Task<IActionResult> UpdateRoom([FromRoute] string id, AddRoomRequest roomRequest)
         {
             var result = await _roomService.UpdateRoom(Guid.Parse(id), roomRequest);
             return Ok(result);

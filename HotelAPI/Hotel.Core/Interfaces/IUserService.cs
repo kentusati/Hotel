@@ -20,7 +20,7 @@ namespace Hotel.Core.Interfaces
         Task<User> UpdateUser(Guid id, AddUserRequest item); // обновление объекта
         Task<User> DeleteUser(Guid id); // удаление объекта по id
 
-        Task<string> LoginAsync(AuthenticationUserRequest userRequest, JWTSettings _jwt);
+        Task<User> LoginAsync(AuthenticationUserRequest userRequest, JWTSettings _jwt);
         Task<User> AddManager(AddUserRequest item);
         Task<User> BlockUser(Guid id);
     }

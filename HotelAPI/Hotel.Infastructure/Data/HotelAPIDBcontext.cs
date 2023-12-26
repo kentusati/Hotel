@@ -13,6 +13,7 @@ namespace Hotel.Infastructure.Data
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<RoomType> RoomTypes { get; set; }
         //public DbSet<SelectedServiceForOrder> SelectedServicesForOrders { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Order> Orders { get; set; }

@@ -1,17 +1,21 @@
 
-  export interface RoomInterface {
-    id: string;
-    number: string;
+  export interface RoomTypeInterface {
+    img: string;
     type: string;
-    price: number;
-    available: boolean;
-    image: string;
+    price_day: number;
     description: string;
+    id: string;
+  }
+  export interface RoomInterface{
+    id: string;
+    roomNumber: number;
+    Available: boolean;
+    roomTypeId: string;
   }
 
   export interface CommentInterface {
     id: string;
-    content: string;
+    text: string;
     rating: number ;
   }
 
@@ -25,8 +29,10 @@
 
   export interface BookingInterface {
     id: string;
-    checkInDate: Date | null;
-    checkOutDate: Date| null;
+    checkInDate: string;
+    checkOutDate: string;
+    userId: string;
+    roomId: string;
     user: UserInterface;
     room: RoomInterface;
   }
@@ -38,9 +44,10 @@
 
   export interface OrderInterface {
     id: string;
-    service: string;
-    price: string;
-    roomNumber: string;
+    DateOrder: string | null;
+    roomId: string;
+    serviceId: string;
+
   }
 
   export interface ManagerInterface{
@@ -55,8 +62,6 @@
     name: string;
     email: string;
     isBlocked: boolean,
+    roleId: string,
     role: RoleInterface;
-    comments: CommentInterface[];
-    roomBookings: BookingInterface[];
-    orders: OrderInterface[];
   }

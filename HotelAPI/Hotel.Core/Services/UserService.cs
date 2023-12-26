@@ -100,6 +100,11 @@ namespace Hotel.Core.Services
 
         private readonly Repository<User> _userRep;
         private readonly IRoleService _roleService;
+        public User hashUser = new User {
+            Id = Guid.NewGuid(),
+            UserName = "hashUser",
+            Email = "hashUser@email.com"
+        };
 
         public UserService(HotelAPIDBcontext dbContext, IRoleService roleService)
         {
@@ -117,6 +122,7 @@ namespace Hotel.Core.Services
             var users = await _userRep.GetAllItemsAsyncWithInclude(u=>u.Role);
             return users;
         }
+
         public async Task<User> GetUserById(Guid id)
         {
             return await _userRep.GetByIdAsync(id);
@@ -147,9 +153,9 @@ namespace Hotel.Core.Services
                 UserName = addRequest.UserName,
                 Email = addRequest.Email,
             };
-            newUser.PasswordHash = new PasswordHasher<User>().HashPassword(newUser, password);
             _roleService.AddToRoleAsync(newUser, "User");
-
+            newUser.PasswordHash = new PasswordHasher<User>().HashPassword(null, password);
+            
             await _userRep.AddAsync(newUser);
             await _userRep.SaveAsync();
             return newUser;
@@ -163,7 +169,7 @@ namespace Hotel.Core.Services
                 UserName = addRequest.UserName,
                 Email = addRequest.Email,
             };
-            newUser.PasswordHash = new PasswordHasher<User>().HashPassword(newUser, password);
+            newUser.PasswordHash = new PasswordHasher<User>().HashPassword(null, password);
             _roleService.AddToRoleAsync(newUser, "Manager");
 
             await _userRep.AddAsync(newUser);
@@ -177,7 +183,7 @@ namespace Hotel.Core.Services
             _userRep.Update(user);
             user.UserName = addRequest.UserName;
             user.Email = addRequest.Email;
-            user.PasswordHash = new PasswordHasher<User>().HashPassword(user, addRequest.Password);
+            user.PasswordHash = new PasswordHasher<User>().HashPassword(null, addRequest.Password);
             await _userRep.SaveAsync();
             return user;
         }
@@ -200,13 +206,14 @@ namespace Hotel.Core.Services
             return user;
         }
 
-        public async Task<string> LoginAsync(AuthenticationUserRequest userRequest, JWTSettings jwt)
+        public async Task<User> LoginAsync(AuthenticationUserRequest userRequest, JWTSettings jwt)
         {
             var users = await _userRep.FindAsync(user=>user.Email==userRequest.Email);
+            if (users == null) return null;
             User LoginUser =  users.First();
-
-            if(LoginUser.PasswordHash == new PasswordHasher<User>().HashPassword(LoginUser, userRequest.Password))
-                return GetToken(LoginUser, jwt);
+            if (PasswordVerificationResult.Success == new PasswordHasher<User>().VerifyHashedPassword(null, LoginUser.PasswordHash, userRequest.Password))
+                //return GetToken(LoginUser, jwt);
+                return LoginUser;
             return null;
         }
 

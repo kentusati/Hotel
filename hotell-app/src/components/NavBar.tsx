@@ -13,7 +13,7 @@ const NavBar: React.FC = () => {
         </IconButton>
         </Link>
         <Typography variant='h6' component='div' sx={{ flexGrow : 1 }}>
-          БЕСПЛАТНОЕ ЖИЛЬЕ in ОДЕССЕ
+          HOTEL
         </Typography>
         <Stack direction='row' spacing={2}>
           <Link to='/booking'>
@@ -21,22 +21,12 @@ const NavBar: React.FC = () => {
             Booking
             </Button>
           </Link>
-        <Link to='/menuservice'>
+        {/*<Link to='/menuservice'>
           <Button color='inherit'> MenuService </Button>
-        </Link>
+        </Link>*/}
         <Link to='/profile'>
           <Button color='inherit'> Profile </Button>
         </Link>
-        <Link to='/adminPanel'>
-            <Button color='inherit'>
-            admin
-            </Button>
-          </Link>
-          <Link to='/managerPanel'>
-            <Button color='inherit'>
-            Manager
-            </Button>
-          </Link>
         </Stack>
       </Toolbar>
     </AppBar>

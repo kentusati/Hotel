@@ -19,7 +19,7 @@ namespace Hotel.Infastructure.Configurations
             };
 
             var passwordHasher = new PasswordHasher<User>();
-            adminUser.PasswordHash = passwordHasher.HashPassword(adminUser, "ADMIN1234@admin");
+            adminUser.PasswordHash = passwordHasher.HashPassword(null, "ADMIN1234@admin");
 
             builder.HasData(adminUser);
         }
