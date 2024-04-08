@@ -1,41 +1,58 @@
 import { create } from 'zustand'
 import Img from '../img/hotel1.jpg'
-import { BookingInterface, RoomInterface, RoomTypeInterface } from '../InterfacesAndProps/Interfaces'
+import { BookingInterface, OrderInterface, RoomInterface, RoomTypeInterface } from '../InterfacesAndProps/Interfaces'
 import axios, {AxiosResponse} from 'axios'
 
 interface BookingState{
-    data: BookingInterface[];
-    isLoading: boolean;
+    bookingData: BookingInterface[];
+    orderData: OrderInterface[];
+    newBooking: BookingInterface | null;
+    isLoadingBookings: boolean;
+    isLoadingOrders: boolean;
     error: Error | null;
     fetchBookings: () => void;
     addBooking: () => void;
+    fetchOrders: () => void;
 }
 
-export const useStateBookings = create<BookingState>(set => ({
+export const bookingStorage = create<BookingState>(set => ({
     
-    data : [],
-    isLoading: false,
+    bookingData : [],
+    orderData : [],
+    newBooking: null,
+    isLoadingBookings: true,
+    isLoadingOrders: true,
     error: null,
 
     fetchBookings: async () => {
         try {
-          set({ isLoading: true, error: null });
+          set({ isLoadingBookings: true, error: null });
           const response: AxiosResponse = await axios.get<BookingInterface[]>('http://localhost:5139/api/Booking/GetAllBookings');
-          console.log(response);
-          set({ data: response.data, isLoading: false });
+          set({ bookingData: response.data, isLoadingBookings: false });
+          console.log(response.data)
         } catch (error) {
-          set({ error: new Error('Fail'), isLoading: false });
+          set({ error: new Error('Fail'), isLoadingBookings: false });
         }
     },
     addBooking: async () =>{
         try{
-            set({ isLoading: true, error: null });
+            set({ isLoadingBookings: true, error: null });
           const response: AxiosResponse = await axios.get<BookingInterface>('http://localhost:5139/api/Booking/GetAllRoomsType');
           console.log(response);
-          set({ data: response.data, isLoading: false });
+          set({ newBooking: response.data, isLoadingBookings: false });
         }
         catch (error) {
-        set({ error: new Error('Fail'), isLoading: false });
+        set({ error: new Error('Fail'), isLoadingBookings: false });
         }
+    },
+    fetchOrders: async () => {
+      try {
+        set({ isLoadingOrders: true, error: null });
+        const response: AxiosResponse = await axios.get<OrderInterface[]>('http://localhost:5139/api/Order/GetlAllOrders');
+        set({ orderData: response.data, isLoadingOrders: false });
+        console.log(response.data)
+      } catch (error) {
+        set({ error: new Error('Fail'), isLoadingOrders: false });
+      }
     },
 }))

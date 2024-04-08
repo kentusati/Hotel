@@ -24,6 +24,7 @@ namespace Hotel.Core.Services
             {
                 Id = Guid.NewGuid(),
                 RoomNumber = item.RoomNumber,
+                Available = true,
                 RoomTypeId = Guid.Parse(item.RoomTypeId)
             };
             await _roomRep.AddAsync(newRoom);
@@ -66,18 +67,17 @@ namespace Hotel.Core.Services
             return newRoomType;
         }
 
-        public Task<Room> GetRoomById(Guid id)
+        public async Task<Room> GetRoomById(Guid id)
         {
-            throw new NotImplementedException();
+            return await _roomRep.GetByIdAsync(id);
         }
 
-        public async Task<Room> UpdateRoom(Guid id, AddRoomRequest item)
+        public async Task<Room> UpdateRoom(Guid id)
         {
             var room = await _roomRep.GetByIdAsync(id);
             if (room == null) return room;
             _roomRep.Update(room);
-            room.RoomNumber = item.RoomNumber;
-            room.RoomTypeId = Guid.Parse(item.RoomTypeId);
+            room.Available = !room.Available;
             await _roomRep.SaveAsync();
             return room;
         }

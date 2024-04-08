@@ -2,6 +2,7 @@
 using Hotel.DataAccess.DTOs;
 using Hotel.DataAccess.Models;
 using Hotel.Infastructure.Data;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 
 namespace Hotel.Core.Services
@@ -51,7 +52,7 @@ namespace Hotel.Core.Services
         public async Task<Service> UpdateService(Guid id, AddServiceRequest item)
         {
             var service = await _serviceRep.GetByIdAsync(id);
-            if (service == null) return service;
+            if (service == null) return null;
             _serviceRep.Update(service);
             service.Name = item.Name;
             service.Price = item.Price;

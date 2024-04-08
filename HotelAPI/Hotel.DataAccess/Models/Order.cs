@@ -8,15 +8,14 @@ namespace Hotel.DataAccess.Models
     {
         public string DateOfOrder { get; set; }
         public bool Status { get; set; }
-        public string Description { get; set; }
-        [ForeignKey("Room")]
-        public Guid RoomId { get; set; }
+        [ForeignKey("User")]
+        public Guid UserId { get; set; }
         [ForeignKey("Service")]
         public Guid ServiceId { get; set; }
 
         [JsonIgnore]
         public Service Service { get; set; }
         [JsonIgnore]
-        public Room Room { get; set; }
+        public User User { get; set; }
     }
 }

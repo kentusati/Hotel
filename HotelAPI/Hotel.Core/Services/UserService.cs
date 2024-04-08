@@ -20,56 +20,6 @@ namespace Hotel.Core.Services
 {
     public class UserService : IUserService
     {
-        //private readonly UserManager<User> _userManager;
-        //private readonly SignInManager<User> _signInManager;
-        //private readonly IRoleService _roleService;
-        //private readonly bool isAuthenticationPersistant = false;
-        //private readonly bool isLockoutOnFailtureRequired = false;
-
-        //public UserService(UserManager<User> userManager,
-        //                   SignInManager<User> signInManager)
-        //{
-        //    _userManager = userManager;
-        //    _signInManager = signInManager;
-        //}
-
-        //public async Task<IdentityResult> RegisterUserAsync(AddUserRequest createUserDto)
-        //{
-        //    var user = new User()
-        //    {
-        //        Email = createUserDto.Email,
-        //        UserName = createUserDto.UserName,
-        //    };
-
-        //    var userCreationResult = await _userManager.CreateAsync(user, createUserDto.Password);
-
-        //    if (userCreationResult.Succeeded)
-        //    {
-        //        return await _roleService.AddToRoleAsync(user, enumRole.User.ToString());
-        //    }
-
-        //    return userCreationResult;
-        //}
-
-        //public async Task<string> LoginUserAsync(AuthenticationUserRequest userAuthenticationDto, JWTSettings jwt)
-        //{
-        //    var user = await _userManager.FindByEmailAsync(userAuthenticationDto.Email);
-
-        //    var signInResult = await _signInManager.PasswordSignInAsync(user,
-        //                                                                userAuthenticationDto.Password,
-        //                                                                isAuthenticationPersistant,
-        //                                                                isLockoutOnFailtureRequired);
-        //    if (signInResult.Succeeded)
-        //    {
-        //        IEnumerable<Claim> claims = await _userManager.GetClaimsAsync(user);
-        //        var token = GetToken(user, jwt, claims);
-        //        return token;
-        //    }
-
-        //    return null;
-        //}
-
-        //---------------------------------------------------------------------------------------------------------
         public string GetToken(User user, JWTSettings jwtSettings)
         {
             //var claims = principal.ToList();
@@ -144,9 +94,18 @@ namespace Hotel.Core.Services
             var userByName = await _userRep.FindAsync(u=>u.UserName == username);
             return userByName.First();
         }
+        public async Task<IEnumerable<User>> FindUsersByRole(string rolename)
+        {
+            var users = await _userRep.GetAllItemsAsyncWithInclude(u=>u.Role);
+            var items = new List<User>();
+            foreach (var user in users) { if (user.Role.Name == rolename) items.Add(user); }
+            return items;
+        }
         public async Task<User> AddUser(AddUserRequest addRequest)
         {
             var password = addRequest.Password;
+            var finduser = await _userRep.FindAsync(user => user.Email == addRequest.Email);
+            if (!finduser.IsNullOrEmpty())  return null;
             var newUser = new User()
             {
                 Id = Guid.NewGuid(),
@@ -209,11 +168,16 @@ namespace Hotel.Core.Services
         public async Task<User> LoginAsync(AuthenticationUserRequest userRequest, JWTSettings jwt)
         {
             var users = await _userRep.FindAsync(user=>user.Email==userRequest.Email);
-            if (users == null) return null;
+            if (users.IsNullOrEmpty()) return null;
             User LoginUser =  users.First();
             if (PasswordVerificationResult.Success == new PasswordHasher<User>().VerifyHashedPassword(null, LoginUser.PasswordHash, userRequest.Password))
-                //return GetToken(LoginUser, jwt);
-                return LoginUser;
+            {
+                var userAndRoles = await _userRep.GetAllItemsAsyncWithInclude(u => u.Role);
+                foreach (var item in userAndRoles)
+                {
+                    if (item.Email == LoginUser.Email) return item;
+                }
+            }
             return null;
         }
 

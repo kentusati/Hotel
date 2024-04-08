@@ -15,6 +15,7 @@ namespace Hotel.Core.Interfaces
         Task<IEnumerable<User>> GetAllUsersWithInclude(); // получение всех объектов
         Task<User> GetUserById(Guid id); // получение одного объекта по id
         Task<User> FindUserByName(string name);
+        Task<IEnumerable<User>> FindUsersByRole(string rolename);
         Task<User> InitAdmin();
         Task<User> AddUser(AddUserRequest item); // создание объекта
         Task<User> UpdateUser(Guid id, AddUserRequest item); // обновление объекта

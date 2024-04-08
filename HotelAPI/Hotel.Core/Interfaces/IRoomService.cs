@@ -12,7 +12,7 @@ namespace Hotel.Core.Interfaces
         Task<Room> GetRoomById(Guid id); // получение одного объекта по id
         Task<Room> AddRoom(AddRoomRequest item); // создание объекта
         Task<RoomType> AddRoomType(AddRoomTypeRequest item);
-        Task<Room> UpdateRoom(Guid id, AddRoomRequest item); // обновление объекта
+        Task<Room> UpdateRoom(Guid id); // обновление объекта
         Task<Room> DeleteRoom(Guid id); // удаление объекта по id
 
     }

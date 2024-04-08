@@ -5,7 +5,7 @@ import {ModalProps} from './ListBookingsComponent'
 import Button from '@mui/material/Button';
 import { Typography, MenuItem, TextField, Select, SelectChangeEvent, FormControl, InputLabel} from '@mui/material';
 import { RoomInterface, RoomTypeInterface, UserInterface } from './InterfacesAndProps/Interfaces';
-import {useStateRooms} from './Storage/RoomStorage'
+import {roomStorage} from './Storage/RoomStorage'
 import {userStorage} from './Storage/UserStorage'
 
 
@@ -101,7 +101,7 @@ export const ModalBookingComponent: React.FC<BookingModalProps> =
         <InputLabel id="demo-simple-select-label">Room number</InputLabel>
         <Select value={selectedRoomId} onChange={handleRoomChange} margin='none' sx={{ minWidth: 120 }}
         label="Select Room">
-          {rooms.map((room,index) => (
+          {rooms.filter(room=>room.available===true).map((room,index) => (
             <MenuItem key={index} value={room.id}>
               {room.roomNumber}
             </MenuItem>

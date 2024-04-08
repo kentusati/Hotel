@@ -49,10 +49,10 @@ namespace Hotel.API.Controllers
             var result = await _roomService.AddRoomType(roomRequest);
             return Ok(result);
         }
-        [HttpPut("UpdateRoom/{id}")]
-        public async Task<IActionResult> UpdateRoom([FromRoute] string id, AddRoomRequest roomRequest)
+        [HttpPut("UpdateAvailableRoom/{id}")]
+        public async Task<IActionResult> UpdateRoom([FromRoute] string id)
         {
-            var result = await _roomService.UpdateRoom(Guid.Parse(id), roomRequest);
+            var result = await _roomService.UpdateRoom(Guid.Parse(id));
             return Ok(result);
         }
         [HttpDelete("DeleteRoom")]

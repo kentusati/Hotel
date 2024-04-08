@@ -84,24 +84,20 @@ namespace Hotel.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("RoomId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("ServiceId")
                         .HasColumnType("uuid");
 
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomId");
-
                     b.HasIndex("ServiceId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -123,17 +119,17 @@ namespace Hotel.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("18fa538e-486f-4fb2-a3ac-d68169daf39a"),
+                            Id = new Guid("fc5fb39f-2818-48af-9517-6b8dde48b6ff"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("0cf2c712-dfbe-4890-8f39-ae9143c90ad3"),
+                            Id = new Guid("0d4bf2aa-7463-42da-9079-32acc7ce7dd1"),
                             Name = "Manager"
                         },
                         new
                         {
-                            Id = new Guid("7ea2b78d-0121-4517-b122-2e0d0db4dbe6"),
+                            Id = new Guid("fe6011af-5e23-41d3-91e6-613d9da671cd"),
                             Name = "User"
                         });
                 });
@@ -236,9 +232,9 @@ namespace Hotel.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d0611d84-73bb-4a2f-aecc-696e393b7d07"),
+                            Id = new Guid("e06d737b-fed5-4912-8b01-e4ca4cead6eb"),
                             Email = "Admin@gmail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPdGzGAZk3EkFyEdhdsiAs/yOprrZ/97iB5xgkt9E6B3Luw5s2oYUfT6IGUoIi/sTg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELWxwCWxZfW9A+jkr2Xp380FsEL0gzGcSbu0PVmON6RcJykzBgNM4lx51fdi6mPIXA==",
                             UserName = "Admin",
                             isBlocked = false
                         });
@@ -276,21 +272,21 @@ namespace Hotel.API.Migrations
 
             modelBuilder.Entity("Hotel.DataAccess.Models.Order", b =>
                 {
-                    b.HasOne("Hotel.DataAccess.Models.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Hotel.DataAccess.Models.Service", "Service")
                         .WithMany("Orders")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Room");
+                    b.HasOne("Hotel.DataAccess.Models.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Service");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Hotel.DataAccess.Models.Room", b =>
@@ -323,6 +319,8 @@ namespace Hotel.API.Migrations
                     b.Navigation("Bookings");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

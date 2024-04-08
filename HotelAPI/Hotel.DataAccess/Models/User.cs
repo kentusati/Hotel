@@ -23,5 +23,7 @@ namespace Hotel.DataAccess.Models
         public List<Booking>? Bookings { get; set; }
         [JsonIgnore]
         public List<Comment>? Comments { get; set; }
+        [JsonIgnore]
+        public List<Order>? Orders { get; set; }
     }
 }

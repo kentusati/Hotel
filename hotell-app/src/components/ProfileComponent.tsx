@@ -1,33 +1,70 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { OrderInterface, BookingInterface, UserInterface } from './InterfacesAndProps/Interfaces';
 import { UserProps } from './InterfacesAndProps/Props';
-import {Link} from 'react-router-dom';
 import { userStorage } from './Storage/UserStorage';
 import { Button, Card, CardContent, Typography, CardActions } from '@mui/material';
 
-const UserComponent: React.FC<UserProps> = () => {
+interface Props{
+  orders: OrderInterface[] | null;
+  bookings: BookingInterface[] | null;
+  loading_orders: boolean;
+  loading_bookings: boolean;
+}
+
+const UserComponent: React.FC<Props> = (props) => {
+
+  const [orders, setOrders] = useState<OrderInterface[]>([]);
+  const [bookings, setBookings] = useState<BookingInterface[]>([]);
 
   const navigate = useNavigate();
-  const {userBookings, isLoading, error, currentUser, deleteBooking, fetchUserBookings, setCurrentUser} = userStorage();
+  const { isLoading, error, currentUser, deleteBooking, deleteOrder, setCurrentUser} = userStorage();
 
-  useEffect( () => {
-    console.log(currentUser?.id);
-    fetchUserBookings(currentUser?.id);
-  }, []);
+  const removeOrder = (id: string) => {
+    setOrders((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
+  const removeBooking = (id: string) => {
+    setBookings((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
+
+  useEffect(() => {
+    if(currentUser===null){
+      const unparsedUser = localStorage.getItem("CurUser");
+      if (unparsedUser !== null){
+        const parsedUser: UserInterface = JSON.parse(unparsedUser);
+        setCurrentUser(parsedUser);
+      }
+    }
+  
+    if( props.orders!==null && props.orders.length>0){
+    setOrders(props.orders.filter(o=>o.userId==currentUser?.id));
+    }
+    if( props.bookings!==null && props.bookings.length>0){
+    setBookings(props.bookings.filter(b=>b.userId==currentUser?.id));
+    }
+  }, [currentUser]);
 
   const handleLogout = () => {
     setCurrentUser(null);
+    localStorage.setItem("CurUser","");
+    localStorage.setItem("isAuth", JSON.stringify(false));
     navigate("/");
   };
 
   const handleCancelBooking = (bookingId:string) => {
     // Ваша логика отмены бронирования
     deleteBooking(bookingId);
-    fetchUserBookings(currentUser?.id);
+    removeBooking(bookingId);
     console.log(`Отмена бронирования номера с ID: ${bookingId}`);
   };
+  const handleCancelOrder = (orderId:string) => {
+    // Ваша логика отмены бронирования
+    deleteOrder(orderId);
+    removeOrder(orderId);
+    console.log(`Отмена бронирования номера с ID: ${orderId}`);
+  };
 
-  if(isLoading){
+  if(props.loading_bookings || props.loading_orders){
     return( <div> Loading... </div> )
   }
   if(error){
@@ -43,22 +80,22 @@ const UserComponent: React.FC<UserProps> = () => {
       <Typography variant="h5" gutterBottom>
         Забронированные номера:
       </Typography> 
-      {userBookings == null  ? (
+      {bookings.length == 0  ? (
         <Typography variant="body1" gutterBottom>
           У вас нет забронированных номеров.
         </Typography>
       ) : (
-        userBookings.map((booking, index) => (
+        bookings.map((booking, index) => (
           <Card key={index} style={{ marginBottom: '10px' }}>
             <CardContent>
               <Typography variant="h6" component="h2">
                 Номер: {booking.room.roomNumber}
               </Typography>
               <Typography color="textSecondary" gutterBottom>
-                Заезд: {booking.checkInDate?.toString()}
+                Заезд: {booking.startTime}
               </Typography>
               <Typography color="textSecondary" gutterBottom>
-                Выезд: {booking.checkOutDate?.toString()}
+                Выезд: {booking.endTime}
               </Typography>
             </CardContent>
             <CardActions>
@@ -68,6 +105,39 @@ const UserComponent: React.FC<UserProps> = () => {
                 onClick={() => handleCancelBooking(booking.id)}
               >
                 Отменить бронирование
+              </Button>
+            </CardActions>
+          </Card>
+        ))
+      )}
+       <Typography variant="h5" gutterBottom>
+        Заказы:
+      </Typography> 
+      {orders.length == 0  ? (
+        <Typography variant="body1" gutterBottom>
+          У вас нет заказов.
+        </Typography>
+      ) : (
+        orders.map((order, index) => (
+          <Card key={index} style={{ marginBottom: '10px' }}>
+            <CardContent>
+              <Typography variant="h6" component="h2">
+                Дата: {order.dateOfOrder}
+              </Typography>
+              <Typography color="textSecondary" gutterBottom>
+                Заезд: {order.serviceId}
+              </Typography>
+              <Typography color="textSecondary" gutterBottom>
+                Выезд: {order.id}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => handleCancelOrder(order.id)}
+              >
+                Отменить заказ
               </Button>
             </CardActions>
           </Card>

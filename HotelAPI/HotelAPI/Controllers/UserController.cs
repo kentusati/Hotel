@@ -29,9 +29,14 @@ namespace Services.Controllers
         }
 
         [HttpGet("GetAllUsers")]
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public async Task<IActionResult> GetAllUsers()
         {
-            return await _userService.GetAllUsersWithInclude();
+            return Ok(await _userService.GetAllUsersWithInclude());
+        }
+        [HttpGet("GetAllManagers")]
+        public async Task<IActionResult> GetAllManagers()
+        {
+            return Ok(await _userService.FindUsersByRole("Manager"));
         }
 
         [HttpPost("Register")]
@@ -64,10 +69,16 @@ namespace Services.Controllers
             return Ok(result);
         }
 
-        [HttpPatch("BlockUser")]
-        public async Task<IActionResult> BlockUser(string id)
+        [HttpPatch("BlockUser/{id}")]
+        public async Task<IActionResult> BlockUser([FromRoute]string id)
         {
             var result = await _userService.BlockUser(Guid.Parse(id));
+            return Ok(result);
+        }
+        [HttpDelete("DeleteUser/{id}")]
+        public async Task<IActionResult> DeleteUser([FromRoute]string id)
+        {
+            var result = await _userService.DeleteUser(Guid.Parse(id));
             return Ok(result);
         }
     }

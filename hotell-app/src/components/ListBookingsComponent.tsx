@@ -3,7 +3,7 @@ import { Button, Card, CardContent, CardActions, CardMedia, Typography } from '@
 import Img from '../img/hotel1.jpg'
 import {RoomTypeInterface, BookingInterface} from './InterfacesAndProps/Interfaces'
 import {BookingProps} from './InterfacesAndProps/Props'
-import { useStateRooms } from './Storage/RoomStorage';
+import { roomStorage } from './Storage/RoomStorage';
 import {userStorage} from './Storage/UserStorage'
 import { ModalBookingComponent } from './ModalBookingComponent'
 
@@ -17,21 +17,21 @@ export interface ModalProps{
 const ListBookingsComponent: React.FC<BookingProps> = () => {
   const [selectedRoom, setSelectedRoom] = useState<RoomTypeInterface | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const { rooms, data, isLoading, error, fetchRooms, fetchRoomsByTypeId } = useStateRooms();
+  const { roomsByType, data, isLoading, error, fetchRoomsTypes, fetchRoomsByTypeId, fetchRooms } = roomStorage();
 
   const handleOpen = async (room : RoomTypeInterface) => {
     setSelectedRoom(room);
     setModalOpen(true);
     await fetchRoomsByTypeId(room?.id);
-    console.log(rooms);
   };
   const handleCloseModal = () => {
     setModalOpen(false);
   };
 
   useEffect(() => {
-    console.log()
-    fetchRooms();
+    const Get = async () =>{
+    fetchRoomsTypes();}
+    Get();
   }, []);
 
   if (isLoading) {
@@ -73,7 +73,7 @@ const ListBookingsComponent: React.FC<BookingProps> = () => {
         open={modalOpen}
         onClose={handleCloseModal}
         room = {selectedRoom}
-        rooms={rooms}
+        rooms={roomsByType}
       />
         </div>
       </div>

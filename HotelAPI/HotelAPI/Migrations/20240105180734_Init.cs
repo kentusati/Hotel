@@ -115,6 +115,33 @@ namespace Hotel.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DateOfOrder = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<bool>(type: "boolean", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ServiceId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Bookings",
                 columns: table => new
                 {
@@ -141,48 +168,20 @@ namespace Hotel.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    DateOfOrder = table.Column<string>(type: "text", nullable: false),
-                    Status = table.Column<bool>(type: "boolean", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    RoomId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ServiceId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Orders_Rooms_RoomId",
-                        column: x => x.RoomId,
-                        principalTable: "Rooms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_Services_ServiceId",
-                        column: x => x.ServiceId,
-                        principalTable: "Services",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("0cf2c712-dfbe-4890-8f39-ae9143c90ad3"), "Manager" },
-                    { new Guid("18fa538e-486f-4fb2-a3ac-d68169daf39a"), "Admin" },
-                    { new Guid("7ea2b78d-0121-4517-b122-2e0d0db4dbe6"), "User" }
+                    { new Guid("0d4bf2aa-7463-42da-9079-32acc7ce7dd1"), "Manager" },
+                    { new Guid("fc5fb39f-2818-48af-9517-6b8dde48b6ff"), "Admin" },
+                    { new Guid("fe6011af-5e23-41d3-91e6-613d9da671cd"), "User" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "PasswordHash", "UserName", "isBlocked", "roleId" },
-                values: new object[] { new Guid("d0611d84-73bb-4a2f-aecc-696e393b7d07"), "Admin@gmail.com", "AQAAAAIAAYagAAAAEPdGzGAZk3EkFyEdhdsiAs/yOprrZ/97iB5xgkt9E6B3Luw5s2oYUfT6IGUoIi/sTg==", "Admin", false, null });
+                values: new object[] { new Guid("e06d737b-fed5-4912-8b01-e4ca4cead6eb"), "Admin@gmail.com", "AQAAAAIAAYagAAAAELWxwCWxZfW9A+jkr2Xp380FsEL0gzGcSbu0PVmON6RcJykzBgNM4lx51fdi6mPIXA==", "Admin", false, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_RoomId",
@@ -200,14 +199,14 @@ namespace Hotel.API.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_RoomId",
-                table: "Orders",
-                column: "RoomId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Orders_ServiceId",
                 table: "Orders",
                 column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_UserId",
+                table: "Orders",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_RoomTypeId",
@@ -233,19 +232,19 @@ namespace Hotel.API.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
                 name: "Rooms");
 
             migrationBuilder.DropTable(
                 name: "Services");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "RoomTypes");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
         }
     }
 }

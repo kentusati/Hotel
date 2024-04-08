@@ -17,6 +17,13 @@ namespace Hotel.Core.Services
 
         public async Task<Booking> AddBooking(AddBookingRequest item)
         {
+            if (item.StartTime<DateTime.Today) {
+                return null;
+            }
+            if (item.StartTime > item.EndTime){
+                return null;
+            }
+
             var newBooking = new Booking()
             {
                 Id = Guid.NewGuid(),
@@ -25,6 +32,7 @@ namespace Hotel.Core.Services
                 RoomId = Guid.Parse(item.RoomId),
                 UserId = Guid.Parse(item.UserId)
             };
+
             await _bookingRep.AddAsync(newBooking);
             await _bookingRep.SaveAsync();
             return newBooking;
@@ -43,6 +51,12 @@ namespace Hotel.Core.Services
         {
             //var bookings = await _bookingRep.GetAllItemsAsync();
             var bookings = await _bookingRep.GetAllItemsAsyncWithInclude(b=> b.User, b=>b.Room);
+            foreach (var book in bookings) {
+                DateTime dateTime;
+                DateTime.TryParse(book.StartTime, out dateTime);
+                Console.WriteLine(dateTime);
+                Console.WriteLine(dateTime.Month);
+            }
             return bookings;
         }
         public async Task<IEnumerable<Booking>> GetUserBookings(Guid id)
@@ -67,6 +81,15 @@ namespace Hotel.Core.Services
 
         public async Task<Booking> UpdateBooking(Guid id, AddBookingRequest item)
         {
+            if (item.StartTime < DateTime.Today)
+            {
+                return null;
+            }
+            if (item.StartTime > item.EndTime)
+            {
+                return null;
+            }
+
             var booking = await _bookingRep.GetByIdAsync(id);
             if (booking == null) return booking;
             _bookingRep.Update(booking);

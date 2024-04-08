@@ -4,26 +4,35 @@ using Hotel.Core.Interfaces;
 using Hotel.DataAccess.DTOs;
 using Hotel.DataAccess.Models;
 using Hotel.Infastructure.Data;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Hotel.Core.Services
 {
     public class OrderService : IOrderService
     {
         private readonly Repository<Order> _orderRep;
+        private readonly Repository<Booking> _bookingRep;
 
         public OrderService(HotelAPIDBcontext dbContext)
         {
             this._orderRep = new Repository<Order>(dbContext);
+            this._bookingRep = new Repository<Booking>(dbContext);
         }
         public async Task<Order> AddOrder(AddOrderRequest item)
         {
+
+            
+
+
+
+         
+
             var newOrder = new Order()
             {
                 Id = Guid.NewGuid(),
-                DateOfOrder = item.DateOfOrder.ToString(),
+                DateOfOrder = DateTime.Now.ToString(),
                 Status = item.Status,
-                Description = item .Description,
-                RoomId = Guid.Parse(item.RoomId),
+                UserId = Guid.Parse(item.UserId),
                 ServiceId = Guid.Parse(item.ServiceId)
             };
             await _orderRep.AddAsync(newOrder);
@@ -31,9 +40,13 @@ namespace Hotel.Core.Services
             return newOrder;
         }
 
-        public Task<Order> DeleteOrder(Guid id)
+        public async Task<Order> DeleteOrder(Guid id)
         {
-            throw new NotImplementedException();
+            var item = await _orderRep.GetByIdAsync(id);
+            if (item == null) return null;
+            _orderRep.Delete(item);
+            await _orderRep.SaveAsync();
+            return item;
         }
 
         public async Task<IEnumerable<Order>> GetAllOrders()
@@ -41,14 +54,27 @@ namespace Hotel.Core.Services
             return await _orderRep.GetAllItemsAsync();
         }
 
-        public Task<Order> GetOrderById(Guid id)
+        public async Task<IEnumerable<Order>> GetOrderByUserId(Guid id)
         {
-            throw new NotImplementedException();
+            var items = await _orderRep.FindAsync(o=>o.UserId==id);
+            if (items.IsNullOrEmpty()) return null;
+            return items;
         }
 
-        public Task<Order> UpdateOrder(Guid id, AddOrderRequest item)
+        public async Task<Order> UpdateOrder(Guid id, AddOrderRequest item)
         {
-            throw new NotImplementedException();
+
+            if (DateTime.Parse(item.DateOfOrder) < DateTime.Today)
+            {
+                return null;
+            }
+
+            var booking = await _orderRep.GetByIdAsync(id);
+            if (booking == null) return booking;
+            _orderRep.Update(booking);
+            booking.DateOfOrder = item.DateOfOrder;
+            await _orderRep.SaveAsync();
+            return booking;
         }
     }
 }

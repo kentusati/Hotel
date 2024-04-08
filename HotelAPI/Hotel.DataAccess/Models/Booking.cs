@@ -12,7 +12,6 @@ namespace Hotel.DataAccess.Models
         public Guid UserId { get; set; }
         [ForeignKey("Room")]
         public Guid RoomId { get; set; }
-
         public User User { get; set; }
         public Room Room { get; set; }
     }

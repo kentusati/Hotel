@@ -1,0 +1,43 @@
+version: "3.9"
+networks:
+  hotel-dev:
+    driver: bridge
+services:
+  server: 
+    container_name: server
+    build:
+      context: ./HotelAPI
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5139:80"
+    networks:
+      - hotel-dev
+    depends_on:
+      - postgresdb
+    links: 
+      - postgresdb
+  client:
+    container_name: client
+    build:
+      context: ./hotell-app
+      dockerfile: Dockerfile
+    ports:
+      - '5173:5173'
+  postgresdb:
+    container_name: postgresdb
+    image: postgres:14.10-bullseye
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: HotelDB
+    ports:
+      - "5432:5432"
+    networks:
+      - hotel-dev
+    volumes:
+      - postgresdb:/var/lib/postgresql/data
+volumes:
+  postgresdb:

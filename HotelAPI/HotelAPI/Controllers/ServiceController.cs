@@ -36,13 +36,14 @@ namespace Hotel.API.Controllers
         public async Task<IActionResult> UpdateService([FromRoute] string id, AddServiceRequest serviceRequest)
         {
             var result = await _serviceService.UpdateService(Guid.Parse(id), serviceRequest);
+            if (result == null) return Ok(null);
             return Ok(result);
         }
 
-        [HttpDelete("DeleteService")]
-        public async Task<IActionResult> DeleteService(string id)
+        [HttpDelete("DeleteService/{id}")]
+        public async Task<IActionResult> DeleteService([FromRoute] string id)
         {
-            var result = _serviceService.DeleteService(Guid.Parse(id));
+            var result = await _serviceService.DeleteService(Guid.Parse(id));
             return Ok(result);
         }
     }

@@ -2,6 +2,7 @@
 using Hotel.DataAccess.DTOs;
 using Hotel.DataAccess.Models;
 using Hotel.Infastructure.Data;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace Hotel.Core.Services
@@ -22,20 +23,25 @@ namespace Hotel.Core.Services
                 Id = Guid.NewGuid(),
                 rating = item.rating,
                 text = item.text,
+                UserId = Guid.Parse(item.UserId),
             };
             await _commentRep.AddAsync(newComment);
             await _commentRep.SaveAsync();
-            return null;
+            return newComment;
         }
 
-        public Task<Comment> DeleteComment(Guid id)
+        public async Task<Comment> DeleteComment(Guid id)
         {
-            throw new NotImplementedException();
+            var item = await _commentRep.GetByIdAsync(id);
+            if (item == null) return null;
+            _commentRep.Delete(item);
+            await _commentRep.SaveAsync();
+            return item;
         }
 
-        public Task<IEnumerable<Comment>> GetAllComments()
+        public async Task<IEnumerable<Comment>> GetAllComments()
         {
-            throw new NotImplementedException();
+            return await _commentRep.GetAllItemsAsyncWithInclude(com=>com.User);
         }
 
         public Task<Comment> GetCommentById(Guid id)
@@ -43,9 +49,15 @@ namespace Hotel.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task<Comment> UpdateComment(Guid id, AddCommentRequest item)
+        public async Task<Comment> UpdateComment(Guid id, AddCommentRequest addRequest)
         {
-            throw new NotImplementedException();
+            var item = await _commentRep.GetByIdAsync(id);
+            if (item == null) return item;
+            _commentRep.Update(item);
+            item.text = addRequest.text;
+            item.rating = addRequest.rating;
+            await _commentRep.SaveAsync();
+            return item;
         }
     }
 }

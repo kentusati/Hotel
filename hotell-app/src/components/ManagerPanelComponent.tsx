@@ -1,148 +1,411 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
-  Button,
-  Card,
-  CardContent,
-  CardActions,
-  Typography,
-  TextField,
-  FormControlLabel,
-  Checkbox,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, Button , MenuItem, Select, FormControl,
+ InputLabel, SelectChangeEvent, TextField, Grid
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import { BookingInterface, OrderInterface, RoomInterface, ServiceInterface, UserInterface } from './InterfacesAndProps/Interfaces';
+import { bookingStorage } from './Storage/BookingStorage';
+import { userStorage } from './Storage/UserStorage';
+import { roomStorage } from './Storage/RoomStorage';
+import { ModalBookingComponent } from './ModalBookingComponent2';
+import { ModalBookingComponentt } from './ModalOrderUpdComponent';
 
-interface Booking {
-  id: number;
-  checkInDate: Date | null;
-  checkOutDate: Date | null;
-  isAvailable: boolean;
+
+interface ManageProps{
+  orderData: OrderInterface[],
+  allRooms: RoomInterface[],
+  bookingData: BookingInterface[],
+  users: UserInterface[],
+  services: ServiceInterface[],
+} 
+
+const ManagerPanelComponent: React.FC<ManageProps> = (props) => {
+  const [bookings, setBookings] = useState<BookingInterface[]>([]);
+  const [newBooking, setNewBooking] = useState<BookingInterface>();
+  const [updateOrder, setUpdateOrder] = useState<Boolean>(false);
+
+  const { roomsByType, data} = roomStorage();
+
+  const navigate = useNavigate();
+  const {setCurrentUser} = userStorage();
+
+
+  useEffect(()=>{
+    setBookings(props.bookingData);
+    console.log(bookings)
+  },[])
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    localStorage.setItem("CurUser","");
+    localStorage.setItem("isAuth", JSON.stringify(false));
+    navigate("/");
+  };
+  return (
+    <div>
+      <Button variant="contained" color="primary" onClick={handleLogout}>
+        Выйти
+      </Button>
+      <h2>Добавление заказа</h2>
+      <AddOrderComponent users={props.users} services={props.services}/>
+
+      <h2>Добавление бронирования</h2>
+      <AddBookingComponent users={props.users} rooms={props.allRooms}/>
+
+      <h2>Bookings</h2>
+      <BookingsTable bookingData={props.bookingData}/>
+
+      <h2>Orders</h2>
+      <OrdersTable orderData={props.orderData} UpdateOrder={setUpdateOrder}/>
+
+      <h2>Rooms</h2>
+      <RoomsTable roomsData={props.allRooms}/>
+    </div>
+  );
+};
+
+interface bookingTableProps{
+  bookingData: BookingInterface[];
 }
+const BookingsTable: React.FC<bookingTableProps> = (props) => {
+  const [bookings, setBookings] = useState<BookingInterface[]>(props.bookingData);
+  const [bookingId, setBookingId] = useState<string>('');
+  const {deleteBooking} = userStorage(); 
 
-const ManagerPanelComponent: React.FC = () => {
-  const [bookings, setBookings] = useState<Booking[]>([]);
-  const [newBooking, setNewBooking] = useState<Booking>({
-    id: 0,
-    checkInDate: null,
-    checkOutDate: null,
-    isAvailable: true,
-  });
-
-  const handleAddBooking = () => {
-    setBookings([...bookings, newBooking]);
-    setNewBooking({
-      id: 0,
-      checkInDate: null,
-      checkOutDate: null,
-      isAvailable: true,
-    });
+  const handleDeleteBooking = (id: string) => {
+    setBookings(prevBookings => prevBookings.filter(booking => booking.id !== id));
+    deleteBooking(id);
   };
+  //======================================================
 
-  const handleDeleteBooking = (index: number) => {
-    const updatedBookings = [...bookings];
-    updatedBookings.splice(index, 1);
-    setBookings(updatedBookings);
-  };
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleOpen = async (booking : BookingInterface) => {
+      setModalOpen(true);
+      setBookingId(booking.id);
+    };
+    const handleCloseModal = () => {
+      setModalOpen(false);
+    };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setNewBooking({ ...newBooking, [name]: value });
-  };
-
-  const handleCheckInDateChange = (date: Date | null) => {
-    setNewBooking({ ...newBooking, checkInDate: date });
-  };
-
-  const handleCheckOutDateChange = (date: Date | null) => {
-    setNewBooking({ ...newBooking, checkOutDate: date });
-  };
-
-  const handleAvailabilityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewBooking({ ...newBooking, isAvailable: event.target.checked });
-  };
+  // Дополнительные функции для редактирования и создания записей
 
   return (
     <div>
-      <Typography variant="h4" gutterBottom>
-        Панель управления менеджера
-      </Typography>
-
-      <Typography variant="h5" gutterBottom>
-        Бронирования:
-      </Typography>
-      {bookings.length === 0 ? (
-        <Typography variant="body1" gutterBottom>
-          Нет бронирований.
-        </Typography>
-      ) : (
-        bookings.map((booking, index) => (
-          <Card key={booking.id} style={{ marginBottom: '10px' }}>
-            <CardContent>
-              <Typography variant="h6" component="h2">
-                Бронь #{booking.id}
-              </Typography>
-              <Typography color="textSecondary" gutterBottom>
-                Дата заезда: {booking.checkInDate?.toLocaleDateString()}
-              </Typography>
-              <Typography color="textSecondary" gutterBottom>
-                Дата выезда: {booking.checkOutDate?.toLocaleDateString()}
-              </Typography>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={booking.isAvailable}
-                    onChange={handleAvailabilityChange}
-                    name="isAvailable"
-                  />
-                }
-                label="Доступен"
-              />
-            </CardContent>
-            <CardActions>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => handleDeleteBooking(index)}
-              >
-                Отменить бронь
-              </Button>
-            </CardActions>
-          </Card>
-        ))
-      )}
-
-      {/* Форма добавления брони */}
-      <Typography variant="h5" gutterBottom>
-        Добавить бронь
-      </Typography>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
-        label="Дата заезда"
-        name="checkInDate"
-        value={newBooking.checkInDate}
-        onChange={handleCheckInDateChange}
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>User Email</TableCell>
+            <TableCell>Date Start</TableCell>
+            <TableCell>Date End</TableCell>
+            <TableCell>Room Number</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {bookings.map((booking,index) => (
+            <TableRow key={index}>
+              <TableCell>{booking.user.email}</TableCell>
+              <TableCell>
+                {booking.startTime}
+              </TableCell>
+              <TableCell>{booking.endTime}</TableCell>
+              <TableCell>{booking.room.roomNumber}</TableCell>
+              <TableCell>
+                <Button variant="contained" color="error" onClick={() => handleDeleteBooking(booking.id)}>
+                  Delete
+                </Button>
+                <Button variant="contained" color="error" onClick={() => handleOpen(booking)}>
+                  Update
+                </Button>
+                {/* Дополнительные кнопки для редактирования */}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    <ModalBookingComponent
+        open={modalOpen}
+        onClose={handleCloseModal}
+        bookingId={bookingId}
       />
-      </LocalizationProvider>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          label="Дата выезда"
-          name="checkOutDate"
-          value={newBooking.checkOutDate}
-          onChange={handleCheckOutDateChange}
-        />
-      </LocalizationProvider>
-      <FormControlLabel
-        control={
-          <Checkbox checked={newBooking.isAvailable} onChange={handleAvailabilityChange} />
-        }
-        label="Доступен"
-      />
-      <Button variant="contained" color="primary" onClick={handleAddBooking}>
-        Добавить бронь
-      </Button>
     </div>
+  );
+};
+
+interface orderProps{
+  users: UserInterface[];
+  services: ServiceInterface[];
+}
+const AddOrderComponent: React.FC<orderProps> = (props) => {
+
+  const { makeOrder } = userStorage();
+
+  const [selectedUserId, setSelectedUserID] = useState("");
+  const [selectedServiceId, setSelectedServiceId] = useState("");
+
+  const handleServiceChange = (event: SelectChangeEvent) => {
+    setSelectedServiceId(event.target.value as string);
+  };
+  const handleUserChange = (event: SelectChangeEvent) => {
+    setSelectedUserID(event.target.value as string);
+  };
+  const handleAddOrder = () => {
+    makeOrder(Date.now().toString(), true, selectedUserId, selectedServiceId);
+  };
+
+    return (
+      <div>
+        <FormControl>
+        <InputLabel id="demo-simple-select-label">ServiceName</InputLabel>
+        <Select value={selectedServiceId} onChange={handleServiceChange} margin='none' sx={{ minWidth: 120 }}
+        label="Select Room">
+          {props.services.map((service,index) => (
+            <MenuItem key={index} value={service.id}>
+              {service.name}
+            </MenuItem>
+          ))}
+          </Select>
+        </FormControl>
+        <FormControl>
+        <InputLabel id="demo-simple-select-label">UserEmail</InputLabel>
+        <Select value={selectedUserId} onChange={handleUserChange} margin='none' sx={{ minWidth: 120 }}
+        label="Select user">
+          {props.users.map((user,index) => (
+            <MenuItem key={index} value={user.id}>
+              {user.email}
+            </MenuItem>
+          ))}
+          </Select>
+        </FormControl>
+        <Button variant='contained' onClick={handleAddOrder}>Добавить</Button>
+      </div>
+    )
+}
+
+
+interface bookingProps{
+  users: UserInterface[];
+  rooms: RoomInterface[];
+}
+const AddBookingComponent: React.FC<bookingProps> = (props) => {
+
+
+  const [rooms, setRooms] = useState<RoomInterface[]>(props.rooms);
+
+  const handleToggleAvailability = (id: string) => {
+    setRooms(prevRooms =>
+      prevRooms.map(room =>
+        room.id === id ? { ...room, available: !room.available } : room
+      )
+    );
+  };
+
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [selectedRoomId, setSelectedRoomId] = useState('');
+  const {currentUser, setCurrentUser, makeBooking} = userStorage();
+
+  const handleStartDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStartDate(event.target.value);
+  };
+
+  const handleEndDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEndDate(event.target.value);
+  };
+
+  const handleRoomChange = (event: SelectChangeEvent) => {
+    setSelectedRoomId(event.target.value as string);
+  };
+
+
+
+  const [selectedUserId, setSelectedUserID] = useState("");
+  const [selectedServiceId, setSelectedServiceId] = useState("");
+
+  const handleUserChange = (event: SelectChangeEvent) => {
+    setSelectedUserID(event.target.value as string);
+  };
+  const handleAddBooking = () => {
+    makeBooking(selectedUserId, selectedRoomId, startDate, endDate);
+    handleToggleAvailability(selectedRoomId);
+  };
+
+
+
+    return (
+      <div>
+        <TextField
+          label="Начальная дата"
+          type="date"
+          value={startDate}
+          onChange={handleStartDateChange}
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+
+        <TextField
+          label="Конечная дата"
+          type="date"
+          value={endDate}
+          onChange={handleEndDateChange}
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+
+        <FormControl>
+        <InputLabel id="demo-simple-select-label">Room number</InputLabel>
+        <Select value={selectedRoomId} onChange={handleRoomChange} margin='none' sx={{ minWidth: 120 }}
+        label="Select Room">
+          {props.rooms.filter(room=>room.available===true).map((room,index) => (
+            <MenuItem key={index} value={room.id}>
+              {room.roomNumber}
+            </MenuItem>
+          ))}
+          </Select>
+        </FormControl>
+        <FormControl>
+        <InputLabel id="demo-simple-select-label">UserEmail</InputLabel>
+        <Select value={selectedUserId} onChange={handleUserChange} margin='none' sx={{ minWidth: 120 }}
+        label="Select user">
+          {props.users.map((user,index) => (
+            <MenuItem key={index} value={user.id}>
+              {user.email}
+            </MenuItem>
+          ))}
+          </Select>
+        </FormControl>
+
+
+        <Button variant="contained" color="primary" onClick={handleAddBooking}>
+          Забронировать
+        </Button>
+      </div>
+    )
+
+}
+
+
+interface orderTableProps{
+  orderData: OrderInterface[];
+  UpdateOrder: (zxc: Boolean) => void;
+}
+const OrdersTable: React.FC<orderTableProps> = (props) => {
+  const [orders, setOrders] = useState<OrderInterface[]>(props.orderData);
+  const {deleteOrder} = userStorage(); 
+
+  const handleDeleteOrder = (id: string) => {
+    setOrders(prevOrders => prevOrders.filter(order => order.id !== id));
+    deleteOrder(id);
+  };
+  const handleUpdateOrder = (id: string) => {
+    props.UpdateOrder(true);
+  };
+
+  const [orderId, setOrderId] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleOpen = async (order : OrderInterface) => {
+    setModalOpen(true);
+    setOrderId(order.id);
+    console.log(orderId);
+  };
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  // Дополнительные функции для создания записей
+
+  return (
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Service Name</TableCell>
+            <TableCell>User Email</TableCell>
+            <TableCell>Price</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {orders.map((order,index) => (
+            <TableRow key={index}>
+              <TableCell>{order.serviceId}</TableCell>
+              <TableCell>{order.userId}</TableCell>
+              <TableCell>{order.dateOfOrder}</TableCell>
+              <TableCell>
+                <Button variant="contained" color="error" onClick={() => handleDeleteOrder(order.id)}>
+                  Delete
+                </Button>
+                <Button variant="contained" color="error" onClick={() => handleOpen(order)}>
+                  Update
+                </Button>
+                {/* Дополнительные кнопки для создания */}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <ModalBookingComponentt
+        open={modalOpen}
+        onClose={handleCloseModal}
+        orderId={orderId}
+      />
+    </TableContainer>
+  );
+};
+
+interface roomsTableData{
+  roomsData: RoomInterface[];
+}
+const RoomsTable: React.FC<roomsTableData> = (props) => {
+  const {makeRoomAvailable} = roomStorage();
+  const [rooms, setRooms] = useState<RoomInterface[]>(props.roomsData);
+
+  const handleToggleAvailability = (id: string) => {
+    setRooms(prevRooms =>
+      prevRooms.map(room =>
+        room.id === id ? { ...room, available: !room.available } : room
+      )
+    );
+    makeRoomAvailable(id);
+  };
+
+  return (
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Room Number</TableCell>
+            <TableCell>Room Type</TableCell>
+            <TableCell>Available</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rooms.map(room => (
+            <TableRow key={room.id}>
+              <TableCell>{room.roomNumber}</TableCell>
+              <TableCell>{room.roomTypeId}</TableCell>
+              <TableCell>
+                <Checkbox
+                  checked={room.available}
+                  onChange={() => handleToggleAvailability(room.id)}
+                />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 

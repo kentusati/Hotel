@@ -9,6 +9,7 @@ import {
 import { ServicesComponent } from './SerivceComponent';
 import { useStateServices } from './Storage/ServiceStorage';
 import { userStorage } from './Storage/UserStorage';
+import { DateCalendar } from '@mui/x-date-pickers';
 
 export interface ModalProps{
   order: OrderInterface;
@@ -24,20 +25,12 @@ export interface ListServicesProps{
 const ListServicesComponent: React.FC<ListServicesProps> = ( services ) => {
   const [selectedServices, setSelectedServices] = useState<ServiceInterface>();
   const {data,isLoading,error,fetchServices} = useStateServices(); 
-  const {currentUser, makeOrder} = userStorage();
 
   useEffect(() =>  {
     fetchServices();
   }, []);
 
-  const handleOrder = (service : ServiceInterface | undefined) => {
-    setSelectedServices(selectedServices);
-
-    console.log(service);
-  };
-  function handleClick() {
-    handleOrder(selectedServices);
-  }
+ 
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -52,7 +45,7 @@ const ListServicesComponent: React.FC<ListServicesProps> = ( services ) => {
       </Typography>
       <div>
       {data.map((service : ServiceInterface, index) => (
-        <ServicesComponent key={index} index={index} service ={service} onClick={handleClick}/>
+        <ServicesComponent key={index} index={index} service={service}/>
       ))}
       </div>
     </div>

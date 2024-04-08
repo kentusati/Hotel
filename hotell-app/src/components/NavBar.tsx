@@ -21,9 +21,9 @@ const NavBar: React.FC = () => {
             Booking
             </Button>
           </Link>
-        {/*<Link to='/menuservice'>
+        <Link to='/menuservice'>
           <Button color='inherit'> MenuService </Button>
-        </Link>*/}
+        </Link>
         <Link to='/profile'>
           <Button color='inherit'> Profile </Button>
         </Link>

@@ -10,22 +10,28 @@ import { Sync } from '@mui/icons-material';
 const LoginForm: React.FC<VisibleProps> = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const {users, currentUser,setCurrentUser ,error,isLoading ,fetchUsers, logIn} = userStorage();
+  const {currentUser,setCurrentUser ,error,isLoading, logIn} = userStorage();
+  const [isAuth, setAuth] = useState(Boolean)
   const navigate = useNavigate();
 
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     await logIn(email,password);
-    if(currentUser?.roleId === "18fa538e-486f-4fb2-a3ac-d68169daf39a"){ 
-      navigate('/adminPanel');
+    localStorage.setItem("CurUser",JSON.stringify(currentUser))
+    if(currentUser?.role?.name === "Admin"){ 
+      localStorage.setItem("isAuth", JSON.stringify(true))
+      navigate('/adminPage');
       setCurrentUser(currentUser);
     }
-    if(currentUser?.roleId==="e6150860-337f-4d3b-81f3-270e23266a8c" && currentUser?.isBlocked==false){
+    if(currentUser?.role?.name==="User" && currentUser?.isBlocked==false){
+      localStorage.setItem("isAuth", JSON.stringify(true))
       navigate('/home');
       setCurrentUser(currentUser);
+      console.log(currentUser)
     }
-    if(currentUser?.roleId==="2cf25159-a39f-4873-9f77-308f8854ac6c"){
-      navigate('/managerPanel');
+    if(currentUser?.role?.name==="Manager"){
+      localStorage.setItem("isAuth", JSON.stringify(true))
+      navigate('/managerPage');
       setCurrentUser(currentUser);
     }
   };

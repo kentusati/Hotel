@@ -4,17 +4,33 @@ import image2 from '../img/HotelRoom.avif';
 import image3 from '../img/NightOcean.avif';
 import ImageTextComponentSprava from '../components/ImageTextRightComponent';
 import ImageTextComponentSleva from '../components/ImageTextLeftComponent';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ListCommentsComponent from '../components/ListCommentsComponent';
+import {CommentForm} from '../components/WriteCommentComponent'
+import { commentStorage } from '../components/Storage/CommentStorage';
+import { userStorage } from '../components/Storage/UserStorage';
+import EmailForm from '../components/SendEmailComponent';
 
 
 const HomePage: React.FC = () => {
 
-  const comments = [
-    { id: '1', content: 'Отличный отель!', rating: 5 },
-    { id: '2', content: 'Хорошее обслуживание, но номер был немного грязным.', rating: 3 },
-    { id: '3', content: 'Прекрасный вид на океан из номера.', rating: 4 },
-  ];
+  const {writeComment} = commentStorage(); 
+  const {currentUser, setCurrentUser} = userStorage();
+
+  useEffect(() => {
+    if(currentUser===null){
+      const unparsedUser = localStorage.getItem("CurUser");
+      if (unparsedUser !== null){
+        const parsedUser = JSON.parse(unparsedUser);
+        setCurrentUser(parsedUser);
+      }
+    }
+  },[])
+
+  const handleSubmit = async (text : string, rating: number) =>{
+    await writeComment(text, rating, String(currentUser?.id));
+    console.log(text,rating, currentUser?.id);
+  }
 
     return (
       <div>
@@ -42,10 +58,9 @@ const HomePage: React.FC = () => {
              Когда солнце садится за горизонт, ночной океан оживает своими таинственными светящимися созданиями и мерцающими отблесками.
              В нашем отеле мы создали специальные площадки и панорамные террасы, чтобы наши гости могли насладиться этим удивительным зрелищем.'>
         </ImageTextComponentSleva>
-        <h2>Welcome to the Home Page</h2>
-        <p>This is the content of the Home Page.</p>
-
-        <ListCommentsComponent comments={comments}/>
+        <EmailForm/>
+        <CommentForm onSubmit={handleSubmit}/>
+        <ListCommentsComponent/>
 
       </div>
     );

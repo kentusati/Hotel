@@ -5,24 +5,25 @@ import axios, {AxiosResponse} from 'axios'
 
 interface RoomState{
     data: RoomTypeInterface[];
-    rooms: RoomInterface[];
+    roomsByType: RoomInterface[];
     allRooms: RoomInterface[],
     isLoading: boolean;
     error: Error | null;
-    fetchRooms: () => void;
+    fetchRoomsTypes: () => void;
     fetchRoomsByTypeId: (id: string | undefined) => void;
-    fetchAllRooms: () =>void;
+    fetchRooms: () =>void;
+    makeRoomAvailable: (id : string) => void;
 }
 
-export const useStateRooms = create<RoomState>(set => ({
+export const roomStorage = create<RoomState>(set => ({
     
     data : [],
-    rooms: [],
+    roomsByType: [],
     allRooms: [],
     isLoading: false,
     error: null,
 
-    fetchRooms: async () => {
+    fetchRoomsTypes: async () => {
         try {
           set({ isLoading: true, error: null });
           const response: AxiosResponse = await axios.get<RoomTypeInterface[]>('http://localhost:5139/api/Room/GetAllRoomsType');
@@ -36,20 +37,27 @@ export const useStateRooms = create<RoomState>(set => ({
       try {
         set({ isLoading: true, error: null });
         const response: AxiosResponse = await axios.get<RoomTypeInterface[]>('http://localhost:5139/api/Room/GetAllRooms/'+id);
-        console.log(response);
-        set({ rooms: response.data, isLoading: false });
+        console.log(response.data);
+        set({ roomsByType: response.data, isLoading: false });
       } catch (error) {
         set({ error: new Error('Fail'), isLoading: false });
       }
     },
-    fetchAllRooms: async () => {
+    fetchRooms: async () => {
       try {
-        set({ isLoading: true, error: null });
+        set({ isLoading: true, error: null });  
         const response: AxiosResponse = await axios.get<RoomInterface[]>('http://localhost:5139/api/Room/GetAllRooms');
-        console.log(response);
         set({ allRooms: response.data, isLoading: false });
       } catch (error) {
         set({ error: new Error('Fail'), isLoading: false });
       } finally { set({isLoading: false}) }
-  },
+    },
+    makeRoomAvailable: async (id) => {
+      try {
+        set({ isLoading: true, error: null });  
+        const response: AxiosResponse = await axios.put<RoomInterface[]>('http://localhost:5139/api/Room/UpdateAvailableRoom/'+id);
+      } catch (error) {
+        set({ error: new Error('Fail'), isLoading: false });
+      } finally { set({isLoading: false}) }
+    },
 }))

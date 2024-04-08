@@ -18,8 +18,8 @@ const App: React.FC = () => {
         <Route path="/booking" element={<BookingPage/>}/>
         <Route path="/menuservice" element={<OrderPage/>}/>
         <Route path="/profile" element={<ProfilePage/>}/>
-        <Route path="/managerPanel" element={<ManagerPage/>}/>
-        <Route path="/adminPanel" element={<AdminPage/>}/>
+        <Route path="/managerPage" element={<ManagerPage/>}/>
+        <Route path="/adminPage" element={<AdminPage/>}/>
       </Routes>
     </Router>
   );

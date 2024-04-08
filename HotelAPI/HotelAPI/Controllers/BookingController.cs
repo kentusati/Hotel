@@ -11,10 +11,12 @@ namespace Hotel.API.Controllers
     public class BookingController : Controller
     {
         private readonly IBookingService _bookingService;
+        private readonly IRoomService _roomService;
 
-        public BookingController(IBookingService bookingService)
+        public BookingController(IBookingService bookingService, IRoomService roomService)
         {
             _bookingService = bookingService;
+            _roomService = roomService;
         }
 
         [HttpGet("GetAllBookings")]
@@ -28,17 +30,18 @@ namespace Hotel.API.Controllers
         {
             var result = await _bookingService.GetUserBookings(Guid.Parse(id));
             if (!result.IsNullOrEmpty()){
-                Console.WriteLine(!result.IsNullOrEmpty());
                 return Ok(result);
-            }
-            Console.WriteLine(result.First().ToString());
-            return NotFound();
+            }   
+            return Ok(null);
         }
 
         [HttpPost("AddBooking")]
         public async Task<IActionResult> AddBooking(AddBookingRequest addRequest)
         {
+            var room =  await _roomService.GetRoomById(Guid.Parse(addRequest.RoomId));
+            if (room.Available == false) return null;
             var result = await _bookingService.AddBooking(addRequest);
+            if(result != null) await _roomService.UpdateRoom(Guid.Parse(addRequest.RoomId));
             return Ok(result);
         }
         [HttpPut("UpdateBooking/{id}")]

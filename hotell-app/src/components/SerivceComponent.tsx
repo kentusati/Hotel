@@ -2,6 +2,7 @@ import React from "react"
 import { ServiceInterface } from "./InterfacesAndProps/Interfaces"
 import { Button, Typography, Paper } from "@mui/material"
 import {styled} from'@mui/system';
+import { userStorage } from "./Storage/UserStorage"; 
 
 
   const Container = styled(Paper)(({ theme }) => ({
@@ -21,13 +22,17 @@ import {styled} from'@mui/system';
 interface ServiceProps{
     service: ServiceInterface;
     index: number;
-    onClick: () => void;
 }
 
 export const ServicesComponent: React.FC<ServiceProps> = (service) => {
     
     const selectedService = service.service;
+    const {currentUser, makeOrder} = userStorage();
     
+    const handleAddOrder = () => {
+      makeOrder(Date.now().toString(), true, currentUser?.id, selectedService?.id);
+    };
+
     return(
         <Container>
             <ImageContainer>
@@ -38,7 +43,7 @@ export const ServicesComponent: React.FC<ServiceProps> = (service) => {
             <Typography variant="h5" textAlign={'left'}>{selectedService.price}</Typography>
             <Typography variant="h6" textAlign={'left'}>{selectedService.description}</Typography>
             </TextContainer>
-            <Button variant="contained" color="primary" onClick={service.onClick}>Заказ</Button>
+            <Button variant="contained" color="primary" onClick={handleAddOrder}>Заказ</Button>
         </Container>
     )
 }

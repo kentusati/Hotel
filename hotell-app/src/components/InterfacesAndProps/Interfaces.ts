@@ -9,7 +9,7 @@
   export interface RoomInterface{
     id: string;
     roomNumber: number;
-    Available: boolean;
+    available: boolean;
     roomTypeId: string;
   }
 
@@ -17,6 +17,8 @@
     id: string;
     text: string;
     rating: number ;
+    userId : string;
+    user: UserInterface;
   }
 
   export interface ServiceInterface {
@@ -29,8 +31,8 @@
 
   export interface BookingInterface {
     id: string;
-    checkInDate: string;
-    checkOutDate: string;
+    startTime: string;
+    endTime: string;
     userId: string;
     roomId: string;
     user: UserInterface;
@@ -44,8 +46,8 @@
 
   export interface OrderInterface {
     id: string;
-    DateOrder: string | null;
-    roomId: string;
+    dateOfOrder: string | null;
+    userId: string;
     serviceId: string;
 
   }
@@ -59,9 +61,9 @@
   
   export interface UserInterface {
     id: string;
-    name: string;
+    userName: string;
     email: string;
     isBlocked: boolean,
     roleId: string,
-    role: RoleInterface;
+    role: RoleInterface | undefined;
   }

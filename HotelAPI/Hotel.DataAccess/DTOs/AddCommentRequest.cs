@@ -5,7 +5,7 @@ namespace Hotel.DataAccess.DTOs
     {
         public string text { get; set; }
         public int rating { get; set; }
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
     }
 }
