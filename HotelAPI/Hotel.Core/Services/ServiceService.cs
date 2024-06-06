@@ -23,6 +23,7 @@ namespace Hotel.Core.Services
                 Name = item.Name,
                 Price = item.Price,
                 Description = item.Description,
+                ImgName = item.ImgName,
             };
             await _serviceRep.AddAsync(newService);
             await _serviceRep.SaveAsync();

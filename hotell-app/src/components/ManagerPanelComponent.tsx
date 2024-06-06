@@ -100,22 +100,22 @@ const BookingsTable: React.FC<bookingTableProps> = (props) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>User Email</TableCell>
-            <TableCell>Date Start</TableCell>
-            <TableCell>Date End</TableCell>
-            <TableCell>Room Number</TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell sx={{ color: 'white' }}>User Email</TableCell>
+            <TableCell sx={{ color: 'white' }}>Date Start</TableCell>
+            <TableCell sx={{ color: 'white' }}>Date End</TableCell>
+            <TableCell sx={{ color: 'white' }}>Room Number</TableCell>
+            <TableCell sx={{ color: 'white' }}>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {bookings.map((booking,index) => (
             <TableRow key={index}>
-              <TableCell>{booking.user.email}</TableCell>
-              <TableCell>
+              <TableCell sx={{ color: 'white' }}>{booking.user.email}</TableCell>
+              <TableCell sx={{ color: 'white' }}>
                 {booking.startTime}
               </TableCell>
-              <TableCell>{booking.endTime}</TableCell>
-              <TableCell>{booking.room.roomNumber}</TableCell>
+              <TableCell sx={{ color: 'white' }}>{booking.endTime}</TableCell>
+              <TableCell sx={{ color: 'white' }}>{booking.room.roomNumber}</TableCell>
               <TableCell>
                 <Button variant="contained" color="error" onClick={() => handleDeleteBooking(booking.id)}>
                   Delete
@@ -163,8 +163,22 @@ const AddOrderComponent: React.FC<orderProps> = (props) => {
     return (
       <div>
         <FormControl>
-        <InputLabel id="demo-simple-select-label">ServiceName</InputLabel>
-        <Select value={selectedServiceId} onChange={handleServiceChange} margin='none' sx={{ minWidth: 120 }}
+        <InputLabel id="demo-simple-select-label" sx={{ color: 'white' }}>ServiceName</InputLabel>
+        <Select value={selectedServiceId} onChange={handleServiceChange} margin='none' sx={{ minWidth: 120 , 
+          color: 'white',
+          '.MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '.MuiSvgIcon-root': {
+            color: 'white',
+          },
+        }}
         label="Select Room">
           {props.services.map((service,index) => (
             <MenuItem key={index} value={service.id}>
@@ -174,8 +188,21 @@ const AddOrderComponent: React.FC<orderProps> = (props) => {
           </Select>
         </FormControl>
         <FormControl>
-        <InputLabel id="demo-simple-select-label">UserEmail</InputLabel>
-        <Select value={selectedUserId} onChange={handleUserChange} margin='none' sx={{ minWidth: 120 }}
+        <InputLabel id="demo-simple-select-label" sx={{ color: 'white' }}>UserEmail</InputLabel>
+        <Select value={selectedUserId} onChange={handleUserChange} margin='none' sx={{ minWidth: 120 ,
+         color: 'white',
+          '.MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '.MuiSvgIcon-root': {
+            color: 'white',
+          },}}
         label="Select user">
           {props.users.map((user,index) => (
             <MenuItem key={index} value={user.id}>
@@ -250,6 +277,17 @@ const AddBookingComponent: React.FC<bookingProps> = (props) => {
           InputLabelProps={{
             shrink: true,
           }}
+          sx={{
+            '& .MuiInputBase-input': {
+              color: 'white',
+            },
+            '& .MuiInputLabel-root': {
+              color: 'white',
+            },
+            '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'white',
+            },
+          }}
         />
 
         <TextField
@@ -261,11 +299,36 @@ const AddBookingComponent: React.FC<bookingProps> = (props) => {
           InputLabelProps={{
             shrink: true,
           }}
+          sx={{
+            '& .MuiInputBase-input': {
+              color: 'white',
+            },
+            '& .MuiInputLabel-root': {
+              color: 'white',
+            },
+            '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'white',
+            },
+          }}
         />
 
         <FormControl>
-        <InputLabel id="demo-simple-select-label">Room number</InputLabel>
-        <Select value={selectedRoomId} onChange={handleRoomChange} margin='none' sx={{ minWidth: 120 }}
+        <InputLabel id="demo-simple-select-label" sx={{ color: 'white' }}>Room number</InputLabel>
+        <Select value={selectedRoomId} onChange={handleRoomChange} margin='none' sx={{ minWidth: 120 ,
+          color: 'white',
+          '.MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '.MuiSvgIcon-root': {
+            color: 'white',
+          },
+        }}
         label="Select Room">
           {props.rooms.filter(room=>room.available===true).map((room,index) => (
             <MenuItem key={index} value={room.id}>
@@ -275,8 +338,22 @@ const AddBookingComponent: React.FC<bookingProps> = (props) => {
           </Select>
         </FormControl>
         <FormControl>
-        <InputLabel id="demo-simple-select-label">UserEmail</InputLabel>
-        <Select value={selectedUserId} onChange={handleUserChange} margin='none' sx={{ minWidth: 120 }}
+        <InputLabel id="demo-simple-select-label" sx={{ color: 'white' }}>UserEmail</InputLabel>
+        <Select value={selectedUserId} onChange={handleUserChange} margin='none' sx={{ minWidth: 120 ,
+          color: 'white',
+          '.MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '.MuiSvgIcon-root': {
+            color: 'white',
+          },
+        }}
         label="Select user">
           {props.users.map((user,index) => (
             <MenuItem key={index} value={user.id}>
@@ -330,18 +407,18 @@ const OrdersTable: React.FC<orderTableProps> = (props) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Service Name</TableCell>
-            <TableCell>User Email</TableCell>
-            <TableCell>Price</TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell sx={{ color: 'white' }}>Service Name</TableCell>
+            <TableCell sx={{ color: 'white' }}>User Email</TableCell>
+            <TableCell sx={{ color: 'white' }}>Price</TableCell>
+            <TableCell sx={{ color: 'white' }}>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {orders.map((order,index) => (
             <TableRow key={index}>
-              <TableCell>{order.serviceId}</TableCell>
-              <TableCell>{order.userId}</TableCell>
-              <TableCell>{order.dateOfOrder}</TableCell>
+              <TableCell sx={{ color: 'white' }}>{order.serviceId}</TableCell>
+              <TableCell sx={{ color: 'white' }}>{order.userId}</TableCell>
+              <TableCell sx={{ color: 'white' }}>{order.dateOfOrder}</TableCell>
               <TableCell>
                 <Button variant="contained" color="error" onClick={() => handleDeleteOrder(order.id)}>
                   Delete
@@ -385,17 +462,17 @@ const RoomsTable: React.FC<roomsTableData> = (props) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Room Number</TableCell>
-            <TableCell>Room Type</TableCell>
-            <TableCell>Available</TableCell>
+            <TableCell sx={{ color: 'white' }}>Room Number</TableCell>
+            <TableCell sx={{ color: 'white' }}>Room Type</TableCell>
+            <TableCell sx={{ color: 'white' }}>Available</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rooms.map(room => (
             <TableRow key={room.id}>
-              <TableCell>{room.roomNumber}</TableCell>
-              <TableCell>{room.roomTypeId}</TableCell>
-              <TableCell>
+              <TableCell sx={{ color: 'white' }}>{room.roomNumber}</TableCell>
+              <TableCell sx={{ color: 'white' }}>{room.roomTypeId}</TableCell>
+              <TableCell sx={{ color: 'white' }}>
                 <Checkbox
                   checked={room.available}
                   onChange={() => handleToggleAvailability(room.id)}

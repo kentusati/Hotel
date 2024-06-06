@@ -36,11 +36,11 @@ export const ServicesComponent: React.FC<ServiceProps> = (service) => {
     return(
         <Container>
             <ImageContainer>
-            <img src={selectedService.image} draggable={false} height={200} width={250}/>
+            <img src={"http://localhost:5139/uploads/"+service.index+".jpg"} draggable={false} height={200} width={250}/>
             </ImageContainer>
             <TextContainer>
             <Typography variant="h4" textAlign={'left'}>{selectedService.name}</Typography>
-            <Typography variant="h5" textAlign={'left'}>{selectedService.price}</Typography>
+            <Typography variant="h5" textAlign={'left'}>{selectedService.price}BYN</Typography>
             <Typography variant="h6" textAlign={'left'}>{selectedService.description}</Typography>
             </TextContainer>
             <Button variant="contained" color="primary" onClick={handleAddOrder}>Заказ</Button>

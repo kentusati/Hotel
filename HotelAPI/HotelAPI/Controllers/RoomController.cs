@@ -37,6 +37,7 @@ namespace Hotel.API.Controllers
             var result = await _roomService.GetAllRoomsTypes();
             return Ok(result);
         }
+
         [HttpPost("AddRoom")]
         public async Task<IActionResult> AddRoom(AddRoomRequest roomRequest)
         {

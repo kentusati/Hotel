@@ -12,6 +12,7 @@ namespace Hotel.DataAccess.Models
         public string Type { get; set; }
         public double Price_day { get; set; }
         public string Description { get; set; }
+        //public string ImgPath { get; set; }
 
     }
 }

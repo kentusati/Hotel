@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\unek\\dipl\\Hotel\\HotelAPI\\HotelAPI\\wwwroot\\rooms\\0.jpg",
+      "PackagePath": "staticwebassets\\rooms\\0.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Hotel.API.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.Hotel.API.props",
+      "PackagePath": "build\\Hotel.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Hotel.API.props",
+      "PackagePath": "buildMultiTargeting\\Hotel.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.Hotel.API.props",
+      "PackagePath": "buildTransitive\\Hotel.API.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

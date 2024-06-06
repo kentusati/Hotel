@@ -7,6 +7,7 @@ import OrderPage from './pages/ServicePage';
 import ProfilePage from './pages/ProfilePage'
 import AdminPage from './pages/AdminPage'
 import ManagerPage from './pages/ManagerPage'
+import TestPage from './pages/testPage/TestPage'
 import './App.css'
 
 const App: React.FC = () => {
@@ -20,6 +21,7 @@ const App: React.FC = () => {
         <Route path="/profile" element={<ProfilePage/>}/>
         <Route path="/managerPage" element={<ManagerPage/>}/>
         <Route path="/adminPage" element={<AdminPage/>}/>
+        <Route path="/testPage" element={<TestPage/>}/>
       </Routes>
     </Router>
   );

@@ -53,12 +53,12 @@ const ListBookingsComponent: React.FC<BookingProps> = () => {
           <Card key={index} sx={{ maxWidth: 400, flex: '0 0 50%',  margin: '10px' }}>
           <CardMedia
             sx={{ height: 140 }}
-            image={roomType.img}
+            image={"http://localhost:5139/rooms/"+index+".jpg"}
             title="Room"
         />
           <CardContent>
               <Typography gutterBottom variant="h6" component="div">
-                Тип:{roomType.type} ; Цена за день:{roomType.price_day}
+                Тип:{roomType.type} ; Цена за день:{roomType.price_day}BYN
               </Typography>
             <Typography variant="body2" color="text.secondary">
               {roomType.description}

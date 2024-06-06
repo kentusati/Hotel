@@ -48,6 +48,17 @@ const EmailForm: React.FC = () => {
             required
             value={message}
             onChange={handleMessageChange}
+            sx={{
+              '& .MuiInputBase-input': {
+                color: 'white',
+              },
+              '& .MuiInputLabel-root': {
+                color: 'white',
+              },
+              '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+            }}
           />
         </Grid>
         <Grid item xs={12}>

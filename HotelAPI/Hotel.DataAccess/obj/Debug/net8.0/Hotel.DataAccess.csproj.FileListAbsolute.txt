@@ -11,3 +11,16 @@ E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\refint\Hotel.Da
 E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.pdb
 E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\ref\Hotel.DataAccess.dll
 E:\Studing\MyProjects\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.sourcelink.json
+D:\unek\dipl\Hotel\HotelAPI\Hotel.DataAccess\bin\Debug\net8.0\Hotel.DataAccess.deps.json
+D:\unek\dipl\Hotel\HotelAPI\Hotel.DataAccess\bin\Debug\net8.0\Hotel.DataAccess.dll
+D:\unek\dipl\Hotel\HotelAPI\Hotel.DataAccess\bin\Debug\net8.0\Hotel.DataAccess.pdb
+D:\unek\dipl\Hotel\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.csproj.AssemblyReference.cache
+D:\unek\dipl\Hotel\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+D:\unek\dipl\Hotel\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.AssemblyInfoInputs.cache
+D:\unek\dipl\Hotel\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.AssemblyInfo.cs
+D:\unek\dipl\Hotel\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.csproj.CoreCompileInputs.cache
+D:\unek\dipl\Hotel\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.sourcelink.json
+D:\unek\dipl\Hotel\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.dll
+D:\unek\dipl\Hotel\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\refint\Hotel.DataAccess.dll
+D:\unek\dipl\Hotel\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\Hotel.DataAccess.pdb
+D:\unek\dipl\Hotel\HotelAPI\Hotel.DataAccess\obj\Debug\net8.0\ref\Hotel.DataAccess.dll

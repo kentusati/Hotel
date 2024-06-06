@@ -11,7 +11,7 @@ interface ServiceState{
     fetchServices: () => void;
     deleteService: (id : string) => void;
     updateService: (id: string, name: string, price: number, description: string)=>void;
-    AddService: (name: string, price: number, description: string) => void;
+    AddService: (formData: any) => void;
 }
 
 export const useStateServices = create<ServiceState>(set => ({
@@ -42,13 +42,16 @@ export const useStateServices = create<ServiceState>(set => ({
           set({ error: new Error('Fail'), isLoading: false });
         }
   },
-  AddService: async (name,price,description) => {
+  AddService: async (formData) => {
     try {
       set({isLoading: true});
-      const toServ={name,price,description} 
+      //const toServ={name,price,description} 
       // Выполнение запроса к серверу для добавления пользователя
-      const response: AxiosResponse = await axios.post<ServiceInterface>('http://localhost:5139/api/Service/AddService', toServ);
-      
+      const response = await axios.post('http://localhost:5139/api/Service/AddService', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
       if (response.status!==200) {
         throw new Error('Ошибка при добавлении пользователя');
       }

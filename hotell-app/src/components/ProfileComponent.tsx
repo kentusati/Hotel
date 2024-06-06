@@ -92,10 +92,10 @@ const UserComponent: React.FC<Props> = (props) => {
                 Номер: {booking.room.roomNumber}
               </Typography>
               <Typography color="textSecondary" gutterBottom>
-                Заезд: {booking.startTime}
+                Заезд: {booking.startTime.replace(/ 00:00:00$/, '')}
               </Typography>
               <Typography color="textSecondary" gutterBottom>
-                Выезд: {booking.endTime}
+                Выезд: {booking.endTime.replace(/ 00:00:00$/, '')}
               </Typography>
             </CardContent>
             <CardActions>

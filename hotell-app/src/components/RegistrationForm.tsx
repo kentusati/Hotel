@@ -33,11 +33,33 @@ const RegistrationForm: React.FC<VisibleProps> = (props) => {
       <Typography variant="h3">Регистрация</Typography>
       <div>
       <TextField required
-       id="username" label="username" variant="standard" value={username} onChange={(e) => setUsername(e.target.value)}/>
+       id="username" label="username" variant="standard" value={username} onChange={(e) => setUsername(e.target.value)}
+       sx={{
+        '& .MuiInputBase-input': {
+          color: 'white',
+        },
+        '& .MuiInputLabel-root': {
+          color: 'white',
+        },
+        '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+          borderColor: 'white',
+        },
+      }}/>
       </div>
       <div>
       <TextField required
-       id="email" label="email" variant="standard" value={email} onChange={(e) => setEmail(e.target.value)}/>
+       id="email" label="email" variant="standard" value={email} onChange={(e) => setEmail(e.target.value)}
+       sx={{
+        '& .MuiInputBase-input': {
+          color: 'white',
+        },
+        '& .MuiInputLabel-root': {
+          color: 'white',
+        },
+        '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+          borderColor: 'white',
+        },
+      }}/>
       </div>
       <div>
       <TextField required
@@ -45,7 +67,18 @@ const RegistrationForm: React.FC<VisibleProps> = (props) => {
           autoComplete="current-password"
           variant="standard"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}/>
+          onChange={(e) => setPassword(e.target.value)}
+          sx={{
+            '& .MuiInputBase-input': {
+              color: 'white',
+            },
+            '& .MuiInputLabel-root': {
+              color: 'white',
+            },
+            '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'white',
+            },
+          }}/>
       </div>
       <div style={{padding: '5px'}}>
         <Button variant="contained" type="submit"> Регистрация </Button>

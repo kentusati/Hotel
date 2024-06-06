@@ -1,11 +1,39 @@
 {
   "Version": 1,
-  "Hash": "q6bVS5lsMsax2Xgyg9esBFUCC8F6Em74eZ35x+RVDXU=",
+  "Hash": "dcf1JkBN7PBRDQdpisi25yxD10LKfDpXMKKfDXzWN1U=",
   "Source": "Hotel.API",
   "BasePath": "_content/Hotel.API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "Hotel.API\\wwwroot",
+      "Source": "Hotel.API",
+      "ContentRoot": "D:\\unek\\dipl\\Hotel\\HotelAPI\\HotelAPI\\wwwroot\\",
+      "BasePath": "_content/Hotel.API",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\unek\\dipl\\Hotel\\HotelAPI\\HotelAPI\\wwwroot\\rooms\\0.jpg",
+      "SourceId": "Hotel.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\unek\\dipl\\Hotel\\HotelAPI\\HotelAPI\\wwwroot\\",
+      "BasePath": "_content/Hotel.API",
+      "RelativePath": "rooms/0.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\rooms\\0.jpg"
+    }
+  ]
 }

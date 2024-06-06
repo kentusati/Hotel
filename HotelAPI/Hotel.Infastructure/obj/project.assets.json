@@ -2888,19 +2888,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {}
+    "C:\\Users\\Kentik\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Studing\\MyProjects\\HotelAPI\\Hotel.Infastructure\\Hotel.Infastructure.csproj",
+      "projectUniqueName": "D:\\unek\\dipl\\Hotel\\HotelAPI\\Hotel.Infastructure\\Hotel.Infastructure.csproj",
       "projectName": "Hotel.Infastructure",
-      "projectPath": "E:\\Studing\\MyProjects\\HotelAPI\\Hotel.Infastructure\\Hotel.Infastructure.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "E:\\Studing\\MyProjects\\HotelAPI\\Hotel.Infastructure\\obj\\",
+      "projectPath": "D:\\unek\\dipl\\Hotel\\HotelAPI\\Hotel.Infastructure\\Hotel.Infastructure.csproj",
+      "packagesPath": "C:\\Users\\Kentik\\.nuget\\packages\\",
+      "outputPath": "D:\\unek\\dipl\\Hotel\\HotelAPI\\Hotel.Infastructure\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Kentik\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2908,14 +2913,15 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "E:\\Studing\\MyProjects\\HotelAPI\\Hotel.DataAccess\\Hotel.DataAccess.csproj": {
-              "projectPath": "E:\\Studing\\MyProjects\\HotelAPI\\Hotel.DataAccess\\Hotel.DataAccess.csproj"
+            "D:\\unek\\dipl\\Hotel\\HotelAPI\\Hotel.DataAccess\\Hotel.DataAccess.csproj": {
+              "projectPath": "D:\\unek\\dipl\\Hotel\\HotelAPI\\Hotel.DataAccess\\Hotel.DataAccess.csproj"
             }
           }
         }
@@ -2924,6 +2930,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -2979,8 +2990,20 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "У пакета \"System.IdentityModel.Tokens.Jwt\" 7.0.3 есть известная уязвимость https://github.com/advisories/GHSA-59j7-ghrg-fj52 (уровень серьезности: средний уровень)",
+      "libraryId": "System.IdentityModel.Tokens.Jwt",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }

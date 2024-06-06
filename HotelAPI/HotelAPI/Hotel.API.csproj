@@ -27,4 +27,8 @@
     <ProjectReference Include="..\Hotel.Core\Hotel.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
 </Project>

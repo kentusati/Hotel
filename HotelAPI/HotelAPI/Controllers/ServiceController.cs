@@ -3,6 +3,7 @@ using Hotel.DataAccess.DTOs;
 using Hotel.DataAccess.DTOs.UsersRequest;
 using Hotel.Infastructure.Tokens;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Hotel.API.Controllers
@@ -12,10 +13,12 @@ namespace Hotel.API.Controllers
     public class ServiceController : Controller
     {
         private readonly IServiceService _serviceService;
+        private readonly ILogger<ServiceController> _logger;
 
-        public ServiceController(IServiceService serviceService)
+        public ServiceController(IServiceService serviceService, ILogger<ServiceController> logger)
         {
             _serviceService = serviceService;
+            _logger = logger;
         }
 
         [HttpGet("GetAllServices")]
@@ -26,11 +29,34 @@ namespace Hotel.API.Controllers
         }
 
         [HttpPost("AddService")]
-        public async Task<IActionResult> AddService(AddServiceRequest serviceRequest)
+        public async Task<IActionResult> AddService([FromForm] string name, [FromForm] int price, [FromForm] string description, IFormFile image)
         {
+            if (image == null || image.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            var uploadsFolder = Path.Combine("wwwroot", "uploads");
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            var filePath = Path.Combine(uploadsFolder, image.FileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(fileStream);
+            }
+            var serviceRequest = new AddServiceRequest(){
+                Name = name,
+                Price = price,
+                Description =description,
+                ImgName = image.FileName,
+            };
             var result = await _serviceService.AddService(serviceRequest);
             return Ok(result);
         }
+        [HttpPost("UploadImage")]
+
+
+        //--------------------------------------------------------------------------
 
         [HttpPut("UpdateService/{id}")]
         public async Task<IActionResult> UpdateService([FromRoute] string id, AddServiceRequest serviceRequest)

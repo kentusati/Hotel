@@ -14,6 +14,7 @@ const LoginForm: React.FC<VisibleProps> = (props) => {
   const [isAuth, setAuth] = useState(Boolean)
   const navigate = useNavigate();
 
+  
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     await logIn(email,password);
@@ -49,7 +50,18 @@ const LoginForm: React.FC<VisibleProps> = (props) => {
         <Typography variant="h3">Добро пожаловать</Typography>
       <div>
       <TextField id="username" required
-       label="email" variant="standard" value={email} onChange={(e) => setEmail(e.target.value)}/>
+       label="email" variant="standard" value={email} onChange={(e) => setEmail(e.target.value)}
+       sx={{
+        '& .MuiInputBase-input': {
+          color: 'white',
+        },
+        '& .MuiInputLabel-root': {
+          color: 'white',
+        },
+        '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+          borderColor: 'white',
+        },
+      }}/>
       </div>
       <div>
       <TextField required 
@@ -57,7 +69,18 @@ const LoginForm: React.FC<VisibleProps> = (props) => {
           autoComplete="current-password"
           variant="standard"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}/>
+          onChange={(e) => setPassword(e.target.value)}
+          sx={{
+            '& .MuiInputBase-input': {
+              color: 'white',
+            },
+            '& .MuiInputLabel-root': {
+              color: 'white',
+            },
+            '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'white',
+            },
+          }}/>
       </div>
         <div style={{padding: '10px'}}>
 

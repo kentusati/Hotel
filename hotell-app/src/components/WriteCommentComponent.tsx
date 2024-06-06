@@ -37,6 +37,17 @@ export const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
         variant="outlined"
         margin="normal"
         fullWidth
+        sx={{
+          '& .MuiInputBase-input': {
+            color: 'white',
+          },
+          '& .MuiInputLabel-root': {
+            color: 'white',
+          },
+          '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+        }}
       />
       <Rating
         name="rating"

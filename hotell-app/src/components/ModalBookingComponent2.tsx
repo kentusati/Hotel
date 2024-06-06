@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import {ModalProps} from './ListBookingsComponent'
 import Button from '@mui/material/Button';
-import { Typography, MenuItem, TextField, Select, SelectChangeEvent, FormControl, InputLabel} from '@mui/material';
+import { Typography, MenuItem, TextField, Select, SelectChangeEvent, FormControl, InputLabel, colors} from '@mui/material';
 import { RoomInterface, RoomTypeInterface, UserInterface } from './InterfacesAndProps/Interfaces';
 import {roomStorage} from './Storage/RoomStorage'
 import {userStorage} from './Storage/UserStorage'
@@ -15,6 +15,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
+  colors: 'black',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,

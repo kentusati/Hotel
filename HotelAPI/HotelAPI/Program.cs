@@ -42,12 +42,7 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", builder =>
-    {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-    });
+    //options.AddPolicy();
 });
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -85,8 +80,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("AllowAll");
-
+app.UseCors(builder=>builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

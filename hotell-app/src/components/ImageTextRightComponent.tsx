@@ -7,6 +7,8 @@ const Container = styled(Paper)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0),
+  background: '0,0,0,0',
+  color: 'white',
 }));
 
 const ImageContainer = styled('div')(({ theme }) => ({

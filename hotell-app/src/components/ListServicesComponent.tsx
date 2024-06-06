@@ -43,11 +43,9 @@ const ListServicesComponent: React.FC<ListServicesProps> = ( services ) => {
       <Typography variant="h4" gutterBottom>
         Бронирование номеров
       </Typography>
-      <div>
       {data.map((service : ServiceInterface, index) => (
         <ServicesComponent key={index} index={index} service={service}/>
       ))}
-      </div>
     </div>
   );
 };
